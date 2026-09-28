@@ -5,13 +5,22 @@ description = "LLM signal lab for market announcements (research only, no live t
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "alembic>=1.13",
+    "beautifulsoup4>=4.15.0",
     "fastapi>=0.115",
+    "httpx>=0.28.1",
+    "lxml>=6.1.3",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
+    "pandas-market-calendars>=5.4.0",
     "psycopg[binary]>=3.2",
     "pydantic>=2.8",
     "pydantic-settings>=2.4",
+    "pyyaml>=6.0.3",
     "sqlalchemy>=2.0.30",
     "typer>=0.12",
+    "tzdata>=2026.4",
     "uvicorn[standard]>=0.30",
+    "yfinance>=1.7.0",
 ]
 
 [project.scripts]
@@ -21,8 +30,11 @@ newsalpha = "newsalpha.cli:app"
 dev = [
     "httpx>=0.27",
     "mypy>=1.11",
+    "pandas-stubs>=3.0.5.260914",
     "pytest>=8.3",
     "ruff>=0.6",
+    "types-beautifulsoup4>=4.12.0.20250516",
+    "types-pyyaml>=6.0.12.20260906",
 ]
 
 [build-system]
@@ -48,6 +60,10 @@ warn_unused_configs = true
 warn_redundant_casts = true
 warn_unused_ignores = true
 check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["pandas_market_calendars", "yfinance"]
+ignore_missing_imports = true
 
 # PRD §5: strict on core/
 [[tool.mypy.overrides]]

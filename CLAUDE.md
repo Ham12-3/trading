@@ -86,7 +86,17 @@ uv run pytest                             # default suite: no network, no LLM ca
 uv run alembic upgrade head               # apply migrations (needs DATABASE_URL)
 uv run uvicorn newsalpha.api.app:app --reload
 uv run newsalpha --help
+uv run newsalpha ingest prices --since 2023-12-01          # yfinance, universe + SPY
+uv run newsalpha ingest announcements --since 2024-01-01   # EDGAR; needs SEC_USER_AGENT_* in .env
 ```
+
+Ingestion facts worth remembering:
+- Universe: `backend/config/universe.yaml`, S&P 100 frozen as of 2023-09-18 (Wikipedia oldid 1190636511).
+- `accepted_at` comes from the full submission's `<ACCEPTANCE-DATETIME>` header (US/Eastern), stored UTC.
+- Announcement text is the EX-99.1 (else first EX-99.x) exhibit, stored at `backend/data/raw/...`;
+  `raw_text_uri` is relative to `DATA_DIR`. Filings without an EX-99 exhibit are skipped and counted.
+- `prices_daily` is keyed by (symbol, date); raw OHLC + `adj_close`; `adj_open = open * adj_close/close`.
+- Postgres-backed tests are marked `db` and skip when the database is unreachable.
 
 Frontend (run from `frontend/`):
 

@@ -6,6 +6,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from newsalpha.core.config import get_settings
+from newsalpha.db import models  # noqa: F401  (registers tables on Base.metadata)
 from newsalpha.db.base import Base
 
 config = context.config

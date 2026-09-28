@@ -27,6 +27,9 @@ services:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-newsalpha}:${POSTGRES_PASSWORD:-newsalpha}@db:5432/${POSTGRES_DB:-newsalpha}
     ports:
       - "8000:8000"
+    volumes:
+      # Announcement text written by `newsalpha ingest` lives here (gitignored).
+      - ./backend/data:/app/data
     depends_on:
       db:
         condition: service_healthy
