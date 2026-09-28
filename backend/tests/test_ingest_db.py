@@ -159,3 +159,32 @@ def test_price_ingest_upserts_and_reports_failures(session: Session) -> None:
         select(func.count()).select_from(PriceDaily).where(PriceDaily.symbol == "ZZTEST1")
     )
     assert n == 2
+
+
+class PredecessorAnnouncements(FakeAnnouncements):
+    def list_filings(self, company: CompanyRef, since: date) -> list[FilingRef]:
+        return [FilingRef(f"{company.cik}-a", date(2024, 1, 23), "8-K", ("2.02",))]
+
+
+def test_filings_are_collected_from_predecessor_ciks(session: Session, tmp_path: Path) -> None:
+    universe = Universe(
+        as_of="2023-09-18",
+        source="test",
+        benchmark="SPY",
+        companies=(UniverseMember("ZZTEST1", "Test One", "Tech", predecessor_ciks=(9_900_009,)),),
+    )
+    mapping = {"ZZTEST1": TickerInfo(9_900_001, "T1", "NYSE")}
+    companies, _ = upsert_companies(session, universe, mapping)
+    report = ingest_announcements(
+        session,
+        PredecessorAnnouncements(),
+        companies,
+        date(2024, 1, 1),
+        tmp_path,
+        AnnouncementIngestReport(),
+        {"ZZTEST1": (9_900_009,)},
+    )
+    assert report.inserted == 2
+    ids = set(session.scalars(select(Announcement.source_id).where(Announcement.source == "fake")))
+    assert ids == {"9900001-a", "9900009-a"}
+    assert (tmp_path / "raw" / "fake" / "9900009" / "9900009-a.txt").exists()

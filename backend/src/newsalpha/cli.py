@@ -75,7 +75,10 @@ def ingest_announcements_cmd(since: SinceOption) -> None:
         with Session(get_engine()) as session:
             companies, mapping_errors = upsert_companies(session, universe, source.ticker_map())
             report.failures.update(mapping_errors)
-            ingest_announcements(session, source, companies, start, settings.data_dir, report)
+            predecessors = {m.ticker: m.predecessor_ciks for m in universe.companies}
+            ingest_announcements(
+                session, source, companies, start, settings.data_dir, report, predecessors
+            )
     finally:
         client.close()
 

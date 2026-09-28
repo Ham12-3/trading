@@ -31,7 +31,9 @@ companies:
   # BNY Mellon changed its NYSE symbol BK -> BNY after the snapshot (SEC ticker map, CIK 1390777).
   - {ticker: BK, name: "BNY Mellon", sector: "Financials", current_ticker: BNY}
   - {ticker: BKNG, name: "Booking Holdings", sector: "Consumer Discretionary"}
-  - {ticker: BLK, name: "BlackRock", sector: "Financials"}
+  # BlackRock moved to a new holding company (CIK 2012383) in Oct 2024; earlier filings are under
+  # CIK 1364742 (now "BlackRock Finance, Inc.").
+  - {ticker: BLK, name: "BlackRock", sector: "Financials", predecessor_ciks: [1364742]}
   - {ticker: BMY, name: "Bristol Myers Squibb", sector: "Health Care"}
   - {ticker: BRK.B, name: "Berkshire Hathaway (Class B)", sector: "Financials"}
   - {ticker: C, name: "Citigroup", sector: "Financials"}
@@ -114,4 +116,6 @@ companies:
   - {ticker: VZ, name: "Verizon", sector: "Communication Services"}
   - {ticker: WFC, name: "Wells Fargo", sector: "Financials"}
   - {ticker: WMT, name: "Walmart", sector: "Consumer Staples"}
-  - {ticker: XOM, name: "ExxonMobil", sector: "Energy"}
+  # ExxonMobil Holdings Corp (CIK 2115436) took over the XOM listing in Jul 2026; earlier filings
+  # are under CIK 34088 ("Exxon Mobil Corp").
+  - {ticker: XOM, name: "ExxonMobil", sector: "Energy", predecessor_ciks: [34088]}

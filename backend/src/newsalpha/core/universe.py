@@ -12,6 +12,9 @@ class UniverseMember:
     name: str
     sector: str
     current_ticker: str | None = None  # set when the listing symbol changed later (BK -> BNY)
+    # Earlier SEC registrants whose filings belong to this company (holding-company
+    # reorganisations give the listed entity a new CIK; the old one keeps the history).
+    predecessor_ciks: tuple[int, ...] = ()
 
     @property
     def lookup_ticker(self) -> str:
@@ -40,6 +43,7 @@ def load_universe(path: Path) -> Universe:
             name=str(c["name"]),
             sector=str(c["sector"]),
             current_ticker=str(c["current_ticker"]) if c.get("current_ticker") else None,
+            predecessor_ciks=tuple(int(x) for x in c.get("predecessor_ciks", [])),
         )
         for c in raw["companies"]
     )
