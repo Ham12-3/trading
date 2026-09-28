@@ -43,7 +43,7 @@ def upsert_companies(
     """Insert/update universe companies. Returns (ticker -> Company, ticker -> error)."""
     errors: dict[str, str] = {}
     for member in universe.companies:
-        info = ticker_map.get(sec_ticker(member.ticker))
+        info = ticker_map.get(sec_ticker(member.lookup_ticker))
         if info is None:
             errors[member.ticker] = "ticker not found in SEC company_tickers_exchange.json"
             continue

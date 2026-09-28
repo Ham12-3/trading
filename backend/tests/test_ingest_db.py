@@ -145,7 +145,16 @@ def test_price_ingest_upserts_and_reports_failures(session: Session) -> None:
     )
     assert report.symbols_ok == 1 and report.rows_upserted == 2
     assert "ZZTEST2" in report.failures
-    ingest_prices(session, FakePrices(), ["ZZTEST1"], date(2024, 1, 1), date(2024, 1, 31))
+    # Stored under the snapshot symbol, fetched under the current one.
+    renamed = ingest_prices(
+        session,
+        FakePrices(),
+        ["ZZTEST1"],
+        date(2024, 1, 1),
+        date(2024, 1, 31),
+        {"ZZTEST1": "ZZNEW"},
+    )
+    assert renamed.symbols_ok == 1
     n = session.scalar(
         select(func.count()).select_from(PriceDaily).where(PriceDaily.symbol == "ZZTEST1")
     )

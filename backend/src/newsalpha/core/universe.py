@@ -8,9 +8,15 @@ import yaml
 
 @dataclass(frozen=True)
 class UniverseMember:
-    ticker: str
+    ticker: str  # symbol at the universe snapshot date; the key used everywhere downstream
     name: str
     sector: str
+    current_ticker: str | None = None  # set when the listing symbol changed later (BK -> BNY)
+
+    @property
+    def lookup_ticker(self) -> str:
+        """Symbol to query today's data sources with."""
+        return self.current_ticker or self.ticker
 
 
 @dataclass(frozen=True)
@@ -29,7 +35,12 @@ def load_universe(path: Path) -> Universe:
     """Parse and validate the universe file (unique tickers, benchmark present)."""
     raw = yaml.safe_load(path.read_text(encoding="utf-8"))
     members = tuple(
-        UniverseMember(ticker=str(c["ticker"]), name=str(c["name"]), sector=str(c["sector"]))
+        UniverseMember(
+            ticker=str(c["ticker"]),
+            name=str(c["name"]),
+            sector=str(c["sector"]),
+            current_ticker=str(c["current_ticker"]) if c.get("current_ticker") else None,
+        )
         for c in raw["companies"]
     )
     tickers = [m.ticker for m in members]

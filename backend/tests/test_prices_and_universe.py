@@ -79,3 +79,8 @@ def _pop(outcomes: list[object]) -> pd.DataFrame:
         raise item
     assert isinstance(item, pd.DataFrame)
     return item
+
+
+def test_renamed_ticker_is_looked_up_by_current_symbol() -> None:
+    bk = next(m for m in load_universe(UNIVERSE).companies if m.ticker == "BK")
+    assert bk.lookup_ticker == "BNY"

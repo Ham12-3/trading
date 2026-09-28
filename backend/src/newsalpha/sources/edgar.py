@@ -36,6 +36,7 @@ INDEX_URL = "https://www.sec.gov/Archives/edgar/data/{cik}/{acc_nodash}/{accessi
 EARNINGS_ITEM = "2.02"
 FORM_TYPES = frozenset({"8-K"})
 RETRY_STATUSES = frozenset({429, 500, 502, 503, 504})
+INLINE_TAGS = ["a", "b", "i", "u", "em", "strong", "sup", "sub", "span", "font", "small"]
 
 
 class RateLimiter:
@@ -212,6 +213,10 @@ def html_to_text(body: str) -> str:
         soup = BeautifulSoup(body, "lxml")
         for tag in soup(["script", "style"]):
             tag.decompose()
+        # Inline markup (e.g. a <sup>(R)</sup>) must not break a sentence across lines.
+        for tag in soup(INLINE_TAGS):
+            tag.unwrap()
+        soup.smooth()
         text = soup.get_text("\n")
     else:
         text = body

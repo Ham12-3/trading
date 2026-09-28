@@ -46,13 +46,22 @@ def upsert_bars(session: Session, symbol: str, bars: pd.DataFrame, source: str) 
 
 
 def ingest_prices(
-    session: Session, source: PriceSource, symbols: list[str], start: date, end: date
+    session: Session,
+    source: PriceSource,
+    symbols: list[str],
+    start: date,
+    end: date,
+    lookup: dict[str, str] | None = None,
 ) -> PriceIngestReport:
-    """Fetch and store bars for each symbol; failures are recorded per symbol."""
+    """Fetch and store bars for each symbol; failures are recorded per symbol.
+
+    ``lookup`` maps a stored symbol to the symbol the source knows it by today (BK -> BNY).
+    """
     report = PriceIngestReport()
+    lookup = lookup or {}
     for symbol in symbols:
         try:
-            bars = source.fetch_daily(symbol, start, end)
+            bars = source.fetch_daily(lookup.get(symbol, symbol), start, end)
             report.rows_upserted += upsert_bars(session, symbol, bars, source.name)
             report.symbols_ok += 1
             log.info("%s: %d bars", symbol, len(bars))

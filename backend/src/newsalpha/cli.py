@@ -106,7 +106,8 @@ def ingest_prices_cmd(
     universe = load_universe(get_settings().universe_path)
     symbols = [universe.benchmark, *universe.tickers]
     with Session(get_engine()) as session:
-        report = ingest_prices(session, YahooPriceSource(), symbols, start, end)
+        lookup = {m.ticker: m.lookup_ticker for m in universe.companies if m.current_ticker}
+        report = ingest_prices(session, YahooPriceSource(), symbols, start, end, lookup)
 
     typer.echo(
         f"symbols ok: {report.symbols_ok}/{len(symbols)}  rows upserted: {report.rows_upserted}  "

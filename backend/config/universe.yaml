@@ -28,7 +28,8 @@ companies:
   - {ticker: AXP, name: "American Express", sector: "Financials"}
   - {ticker: BA, name: "Boeing", sector: "Industrials"}
   - {ticker: BAC, name: "Bank of America", sector: "Financials"}
-  - {ticker: BK, name: "BNY Mellon", sector: "Financials"}
+  # BNY Mellon changed its NYSE symbol BK -> BNY after the snapshot (SEC ticker map, CIK 1390777).
+  - {ticker: BK, name: "BNY Mellon", sector: "Financials", current_ticker: BNY}
   - {ticker: BKNG, name: "Booking Holdings", sector: "Consumer Discretionary"}
   - {ticker: BLK, name: "BlackRock", sector: "Financials"}
   - {ticker: BMY, name: "Bristol Myers Squibb", sector: "Health Care"}

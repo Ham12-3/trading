@@ -166,3 +166,8 @@ def test_rate_limiter_enforces_spacing() -> None:
 def test_rate_limiter_refuses_more_than_sec_limit() -> None:
     with pytest.raises(ValueError, match="10 requests per second"):
         RateLimiter(11)
+
+
+def test_inline_markup_does_not_split_sentences() -> None:
+    body = "<html><body><p>CUPERTINO — Apple<sup>®</sup> today <b>announced</b> results.</p>"
+    assert html_to_text(body) == "CUPERTINO — Apple® today announced results."
