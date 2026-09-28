@@ -121,5 +121,78 @@ def ingest_prices_cmd(
         raise typer.Exit(1)
 
 
+@app.command()
+def extract(
+    model: Annotated[
+        str | None, typer.Option("--model", help="Default: defaults.bulk in config/models.yaml.")
+    ] = None,
+    prompt_version: Annotated[str, typer.Option("--prompt-version")] = "v1",
+    limit: Annotated[int | None, typer.Option("--limit", min=1)] = None,
+    retry_failed: Annotated[bool, typer.Option("--retry-failed")] = False,
+) -> None:
+    """Extract LLM signals for announcements that do not have them yet."""
+    from sqlalchemy import func, select
+
+    from newsalpha.db.models import Signal
+    from newsalpha.extraction.models_config import load_models_config
+    from newsalpha.extraction.prompts import load_prompt
+    from newsalpha.extraction.providers import ProviderError, make_provider
+    from newsalpha.extraction.runner import PromptChangedError, percentile, run_extraction
+
+    settings = get_settings()
+    cfg = load_models_config()
+    model = model or cfg.defaults["bulk"]
+    price = cfg.price(model)
+    prompt = load_prompt(prompt_version)
+    try:
+        provider = make_provider(
+            price.provider,
+            {"openai": settings.openai_api_key, "anthropic": settings.anthropic_api_key},
+        )
+    except ProviderError as exc:
+        typer.secho(str(exc), fg=typer.colors.RED, err=True)
+        raise typer.Exit(2) from exc
+
+    with Session(get_engine()) as session:
+        try:
+            report = run_extraction(
+                session=session,
+                provider=provider,
+                model=model,
+                prompt=prompt,
+                price=price,
+                settings=cfg.extraction,
+                data_dir=settings.data_dir,
+                limit=limit,
+                retry_failed=retry_failed,
+            )
+        except PromptChangedError as exc:
+            typer.secho(str(exc), fg=typer.colors.RED, err=True)
+            raise typer.Exit(2) from exc
+        totals = session.execute(
+            select(Signal.status, func.count(), func.sum(Signal.cost_usd))
+            .where(Signal.model == model, Signal.prompt_version == prompt.version)
+            .group_by(Signal.status)
+        ).all()
+
+    paid = len(report.latencies_ms)
+    typer.echo(f"model {model}, prompt {prompt.version}")
+    typer.echo(
+        f"this run: documents {report.documents}  ok {report.ok}  failed {report.failed}  "
+        f"failure rate {report.failure_rate:.1%}  cache hits {report.cache_hits}  "
+        f"truncated {report.truncated}"
+    )
+    typer.echo(
+        f"cost ${report.cost_usd:.4f}"
+        + (f" (${report.cost_usd / paid:.5f}/doc)" if paid else "")
+        + f"  latency p50 {percentile(report.latencies_ms, 50) / 1000:.1f}s"
+        f"  p95 {percentile(report.latencies_ms, 95) / 1000:.1f}s"
+    )
+    summary = ", ".join(f"{status} {n} (${cost or 0:.4f})" for status, n, cost in totals)
+    typer.echo(f"all runs of {model}/{prompt.version}: {summary or 'none'}")
+    if report.failed:
+        raise typer.Exit(1)
+
+
 if __name__ == "__main__":
     app()

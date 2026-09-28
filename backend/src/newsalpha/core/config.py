@@ -23,6 +23,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+psycopg://newsalpha:newsalpha@localhost:5432/newsalpha"
     anthropic_api_key: str | None = Field(default=None, repr=False)
+    openai_api_key: str | None = Field(default=None, repr=False)
     cors_origins: list[str] = ["http://localhost:3000"]
 
     # Paths are relative to backend/ unless absolute.

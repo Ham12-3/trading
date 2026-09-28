@@ -32,13 +32,18 @@ Tests must cover pre-market, intraday, after-close, weekend and holiday cases, p
 ## LLM rules
 
 - LLM only reads and labels text. **Deterministic maths stays in Python** (returns, ratios, weights).
-- Anthropic SDK with tool use / structured output; validate with Pydantic (`AnnouncementSignals`, PRD §8.1).
+- Provider behind `extraction/providers.py`; OpenAI Responses API with strict JSON-schema output is the
+  implemented provider (owner's choice, replacing the PRD's Anthropic default). Validate with Pydantic
+  (`AnnouncementSignals`, PRD §8.1).
   On validation failure: retry once with the error in the prompt, then mark row `failed` and move on.
 - Prompts are versioned files in `backend/prompts/` (`extract_v1.md`, …). Store `model` + `prompt_version` on every signal row.
 - Cache key: `(document_hash, model, prompt_version)` — never pay for the same extraction twice.
 - Record input/output tokens, cost (price table in config), latency for every call.
 - Concurrency limit + exponential backoff on rate limits. Log truncation of long documents.
-- Default models (config): `claude-haiku-4-5-20251001` (bulk), `claude-sonnet-5` (comparison / hard cases).
+- Models, prices and extraction settings live in `backend/config/models.yaml`: `gpt-6-luna` (bulk),
+  `gpt-5.6-luna` (comparison). The prompt forbids using outside knowledge (consensus, later events),
+  so beat/miss is `unknown` unless the release itself compares with expectations or guidance.
+- A prompt file must never change in place: bump the version (`extract_v2.md`); the runner refuses otherwise.
 - **No live LLM calls in the default test suite** — use recorded fixtures.
 
 ## Data sources
@@ -88,6 +93,7 @@ uv run uvicorn newsalpha.api.app:app --reload
 uv run newsalpha --help
 uv run newsalpha ingest prices --since 2023-12-01          # yfinance, universe + SPY
 uv run newsalpha ingest announcements --since 2024-01-01   # EDGAR; needs SEC_USER_AGENT_* in .env
+uv run newsalpha extract --limit 20                       # LLM signals; needs OPENAI_API_KEY
 ```
 
 Ingestion facts worth remembering:
