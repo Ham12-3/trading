@@ -39,7 +39,14 @@ def score(gold: list[GoldLabels], predictions: list[Prediction]) -> dict[str, An
             correct += truth == pred
             row = confusion.setdefault(truth, {})
             row[pred] = row.get(pred, 0) + 1
-        fields[name] = {"accuracy": correct / n if n else 0.0, "confusion": confusion}
+        # Accuracy of always answering the most common gold label: the bar a model must clear
+        # for its accuracy on this field to mean anything.
+        majority = max((sum(r.values()) for r in confusion.values()), default=0)
+        fields[name] = {
+            "accuracy": correct / n if n else 0.0,
+            "majority_baseline": majority / n if n else 0.0,
+            "confusion": confusion,
+        }
 
     tone_errors = [
         abs(float(p.payload["management_tone"]) - g.management_tone)

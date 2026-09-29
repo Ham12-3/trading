@@ -4,6 +4,53 @@
 release, keyed by its SEC accession number. The model is scored against these labels, so they
 must follow the **same rules the model is given** (`backend/prompts/extract_v1.md`).
 
+## Current label set: model-produced, not human
+
+At the owner's request, the labels currently used are **`gold/claude_labels.jsonl`, produced by
+Claude (Opus 5.5)**, not by a human. `labeller` on every record says so, and every eval run
+stores the label file and labellers (`GET /evals` returns them).
+
+What this means for the results:
+
+- Scores against these labels measure **agreement with a stronger model applying the same written
+  rules**, not accuracy against human judgement. Report them as "agreement with Claude labels".
+- The labels are useful for comparing extraction models and prompt versions with each other.
+  They cannot show errors that both models share.
+- The 150 releases are the first 150 in the same seeded order `eval label` uses. Parallel
+  labelling agents read only the release texts (never the evaluated model's outputs) and wrote
+  a one-line evidence note for each label.
+- A human-labelled `gold/gold.jsonl` can be added at any time with `eval label`. Scoring the two
+  label sets against each other would then measure how far the Claude labels can be trusted.
+- After the agents finished, a consistency review changed 7 labels so the same rule was applied
+  across batches. Each change is recorded in that record's `notes` as `[review: ...]`.
+
+## Results so far (prompt v1, 150 Claude-labelled releases)
+
+Agreement with the Claude labels. The "always-majority" column is the score of always answering
+the most common label; only the gap above it means anything.
+
+| Field | gpt-6-luna | gpt-5.6-luna | Always-majority |
+|---|---|---|---|
+| guidance_direction | 91.3% | 90.7% | 52.7% (`not_mentioned`) |
+| revenue_vs_expectation | 94.0% | 93.3% | 84.7% (`unknown`) |
+| eps_vs_expectation | 94.7% | 94.7% | 87.3% (`unknown`) |
+| management_tone MAE | 0.139 | 0.214 | |
+| Schema failures | 0% | 0% | |
+| Cost per release | $0.0013 | $0.0027 | |
+| Latency p50 / p95 | 6.4s / 9.2s | 5.8s / 8.2s | |
+
+Readings:
+
+- Guidance direction is the field where the models add real information (91% vs 53%).
+- Most guidance disagreements are releases where headline metrics moved in opposite directions,
+  for example sales reaffirmed but EPS cut by a one-off charge. These are genuinely ambiguous
+  under the written rules.
+- Beat/miss agreement is high mostly because both sides say `unknown`.
+- The cheaper `gpt-6-luna` is at least as good as `gpt-5.6-luna` on every field, at half the cost.
+- Run-to-run noise is real. Re-scoring the same 20 releases moved guidance agreement from 100% to
+  90% with no change to model or prompt, which is why the regression gate uses a 10-point
+  threshold on mean accuracy.
+
 ## How to label
 
 From `backend/`:

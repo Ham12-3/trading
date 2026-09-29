@@ -1,0 +1,164 @@
+{
+  "model": "gpt-6-luna",
+  "prompt_version": "v1",
+  "prompt_sha256": "36a6e42bf2c45910be5268ce7514739989613f1fae6623a8ed6f6ac80f381c62",
+  "threshold": 0.1,
+  "gold_file": "claude_labels.jsonl",
+  "subset": [
+    {
+      "source": "edgar",
+      "source_id": "0001628280-26-026551",
+      "company_name": "Tesla"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001633917-26-000080",
+      "company_name": "PayPal"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001551152-24-000026",
+      "company_name": "AbbVie"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000066740-26-000242",
+      "company_name": "3M"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000072971-25-000170",
+      "company_name": "Wells Fargo"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001104659-25-034974",
+      "company_name": "Citigroup"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0002115436-26-000006",
+      "company_name": "ExxonMobil"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000909832-24-000026",
+      "company_name": "Costco"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001104659-24-083722",
+      "company_name": "Merck"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001637459-25-000164",
+      "company_name": "Kraft Heinz"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000004962-24-000029",
+      "company_name": "American Express"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000316709-26-000016",
+      "company_name": "Charles Schwab"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000077476-25-000055",
+      "company_name": "PepsiCo"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000077476-25-000046",
+      "company_name": "PepsiCo"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001551152-25-000023",
+      "company_name": "AbbVie"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001045810-25-000228",
+      "company_name": "Nvidia"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000313616-25-000004",
+      "company_name": "Danaher"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0000796343-26-000147",
+      "company_name": "Adobe"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001551152-25-000026",
+      "company_name": "AbbVie"
+    },
+    {
+      "source": "edgar",
+      "source_id": "0001104659-26-009209",
+      "company_name": "Simon"
+    }
+  ],
+  "metrics": {
+    "n_gold": 20,
+    "n_ok": 20,
+    "schema_failure_rate": 0.0,
+    "fields": {
+      "guidance_direction": {
+        "accuracy": 1.0,
+        "majority_baseline": 0.45,
+        "confusion": {
+          "not_mentioned": {
+            "not_mentioned": 9
+          },
+          "raised": {
+            "raised": 6
+          },
+          "lowered": {
+            "lowered": 2
+          },
+          "maintained": {
+            "maintained": 3
+          }
+        }
+      },
+      "revenue_vs_expectation": {
+        "accuracy": 0.9,
+        "majority_baseline": 0.8,
+        "confusion": {
+          "unknown": {
+            "unknown": 16
+          },
+          "beat": {
+            "unknown": 2,
+            "beat": 2
+          }
+        }
+      },
+      "eps_vs_expectation": {
+        "accuracy": 0.85,
+        "majority_baseline": 0.85,
+        "confusion": {
+          "unknown": {
+            "unknown": 17
+          },
+          "beat": {
+            "unknown": 3
+          }
+        }
+      }
+    },
+    "mean_accuracy": 0.9166666666666666,
+    "management_tone_mae": 0.12250000000000001,
+    "mean_cost_per_doc_usd": 0.0013627399999999999,
+    "latency_p50_ms": 5965.0,
+    "latency_p95_ms": 8140.0
+  }
+}

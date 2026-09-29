@@ -75,6 +75,9 @@ def test_score_hand_computed_example() -> None:
     assert m["fields"]["revenue_vs_expectation"]["accuracy"] == pytest.approx(3 / 4)
     assert m["fields"]["eps_vs_expectation"]["accuracy"] == pytest.approx(2 / 4)
     assert m["mean_accuracy"] == pytest.approx((2 / 4 + 3 / 4 + 2 / 4) / 3)
+    # Most common gold label: guidance has 4 distinct labels (1/4); eps "unknown" 3 of 4.
+    assert m["fields"]["guidance_direction"]["majority_baseline"] == pytest.approx(1 / 4)
+    assert m["fields"]["eps_vs_expectation"]["majority_baseline"] == pytest.approx(3 / 4)
     # Tone MAE over the 3 successful docs: |0.2| + |0.4| + |0.0| = 0.6 / 3
     assert m["management_tone_mae"] == pytest.approx(0.2)
     # Cost/latency ignore the cache hit: (0.002 + 0.004 + 0.001) / 3

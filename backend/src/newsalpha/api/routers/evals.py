@@ -20,9 +20,12 @@ class EvalRunOut(BaseModel):
     prompt_version: str
     n_gold: int
     gold_sha256: str
+    gold_file: str
+    labellers: list[str]  # e.g. a human name, or "claude-opus-5.5" for model-produced labels
     created_at: datetime
     mean_accuracy: float
     accuracy: dict[str, float]  # per categorical field
+    majority_baseline: dict[str, float]  # accuracy of always predicting the most common label
     management_tone_mae: float | None
     schema_failure_rate: float
     mean_cost_per_doc_usd: float | None
@@ -39,9 +42,14 @@ class EvalRunOut(BaseModel):
             prompt_version=run.prompt_version,
             n_gold=run.n_gold,
             gold_sha256=run.gold_sha256,
+            gold_file=m.get("gold_file", ""),
+            labellers=m.get("labellers", []),
             created_at=run.created_at,
             mean_accuracy=m["mean_accuracy"],
             accuracy={name: f["accuracy"] for name, f in m["fields"].items()},
+            majority_baseline={
+                name: f.get("majority_baseline", 0.0) for name, f in m["fields"].items()
+            },
             management_tone_mae=m["management_tone_mae"],
             schema_failure_rate=m["schema_failure_rate"],
             mean_cost_per_doc_usd=m["mean_cost_per_doc_usd"],

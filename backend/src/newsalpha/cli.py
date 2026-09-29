@@ -233,7 +233,10 @@ DEFAULT_GOLD = Path("../eval/gold/gold.jsonl")
 
 def _print_metrics(metrics: dict[str, Any]) -> None:
     for name, f in metrics["fields"].items():
-        typer.echo(f"  {name:<24} accuracy {f['accuracy']:.1%}")
+        typer.echo(
+            f"  {name:<24} accuracy {f['accuracy']:.1%}"
+            f"   (always-majority baseline {f.get('majority_baseline', 0):.1%})"
+        )
     typer.echo(f"  {'mean accuracy':<24} {metrics['mean_accuracy']:.1%}")
     mae = metrics["management_tone_mae"]
     typer.echo(f"  {'management_tone MAE':<24} {mae:.3f}" if mae is not None else "  tone MAE n/a")
@@ -346,8 +349,10 @@ def eval_run(
         except GoldSetError as exc:
             typer.secho(str(exc), fg=typer.colors.RED, err=True)
             raise typer.Exit(2) from exc
-    typer.echo(f"eval run {run.id}: {llm.model} / {llm.prompt.version} on {run.n_gold} gold docs")
-    _print_metrics(run.metrics)
+        # Read the row while the session is open (attributes expire on commit).
+        typer.echo(f"eval run {run.id}: {llm.model} / {llm.prompt.version} on {run.n_gold} docs")
+        typer.echo(f"labels: {run.metrics['gold_file']} by {', '.join(run.metrics['labellers'])}")
+        _print_metrics(run.metrics)
 
 
 @eval_app.command("baseline")
@@ -390,13 +395,17 @@ def eval_baseline(
         settings=llm.extraction,
         sleep=time.sleep,
     )
-    write_baseline(docs, metrics, llm.model, llm.prompt, threshold)
+    write_baseline(docs, metrics, llm.model, llm.prompt, threshold, gold_file=gold_path.name)
     typer.echo(f"baseline written for {llm.model}/{llm.prompt.version} on {len(docs)} docs")
     _print_metrics(metrics)
 
 
 @eval_app.command("regress")
-def eval_regress(gold_path: GoldOption = DEFAULT_GOLD) -> None:
+def eval_regress(
+    gold_path: Annotated[
+        Path | None, typer.Option("--gold", help="Default: the label file named in the baseline.")
+    ] = None,
+) -> None:
     """Re-score the frozen subset and fail if accuracy regressed. Skips without an API key."""
     import json
 
@@ -411,6 +420,7 @@ def eval_regress(gold_path: GoldOption = DEFAULT_GOLD) -> None:
         typer.echo("OPENAI_API_KEY not set; skipping regression check")
         return
     llm = _llm_setup(baseline["model"], baseline["prompt_version"])
+    gold_path = gold_path or DEFAULT_GOLD.with_name(baseline.get("gold_file", DEFAULT_GOLD.name))
     docs = load_subset(baseline, load_gold(gold_path))
     metrics = score_subset(
         docs,

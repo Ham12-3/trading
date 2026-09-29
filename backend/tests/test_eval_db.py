@@ -125,6 +125,7 @@ def test_run_eval_extracts_only_gold_docs_scores_and_stores(
     assert run.metrics["fields"]["guidance_direction"]["accuracy"] == 0.5
     assert run.metrics["fields"]["revenue_vs_expectation"]["accuracy"] == 1.0
     assert run.n_gold == 2 and len(run.gold_sha256) == 64
+    assert run.metrics["labellers"] == ["tester"] and run.metrics["gold_file"] == "gold.jsonl"
 
     # A second run reuses the stored signals: no new LLM calls.
     again = Scripted()
@@ -135,6 +136,7 @@ def test_run_eval_extracts_only_gold_docs_scores_and_stores(
     mine = [r for r in body if r["model"] == MODEL]
     assert len(mine) == 1  # latest per (model, prompt_version)
     assert mine[0]["accuracy"]["guidance_direction"] == 0.5
+    assert mine[0]["labellers"] == ["tester"]
     assert mine[0]["confusion"]["guidance_direction"]["lowered"] == {"raised": 1}
     all_runs = TestClient(create_app()).get("/evals", params={"latest_only": False}).json()
     assert len([r for r in all_runs if r["model"] == MODEL]) == 2

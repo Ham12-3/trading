@@ -1,0 +1,1390 @@
+Document
+
+PayPal Reports Second Quarter 2026 Results
+Advances transformation with clear strategy and roadmap
+SAN JOSE, Calif., (July 28, 2026) – PayPal Holdings, Inc. (NASDAQ: PYPL) today reported results for the second quarter ending June 30, 2026.
+"I'm encouraged by the progress we made this quarter. We moved with urgency to sharpen our transformation plan and advance our growth strategies across our three businesses. Branded checkout has further stabilized and we’re building on the strong momentum in Venmo and Braintree as well as diversifying our business model through financial services. Based on the strength of our execution and confidence in the trajectory of the business, we're raising our full-year non-GAAP guidance. Our transformation is well underway, and we're executing with discipline on our priorities to deliver durable, profitable growth over the long term."
+Enrique Lores
+President and CEO
+—————————————————————————————————————————————
+2Q'26 Financial Results
+•Net revenues increased 5% to $8.7 billion; 3% currency-neutral (“FXN”).
+•Transaction margin dollars1 (“TM$”) increased 1% to $3.9 billion; TM$ excluding interest on customer balances1,2 increased 3% to $3.6 billion.
+•GAAP operating income decreased 5% to $1.4 billion; non-GAAP operating income decreased 8% to $1.5 billion.
+•GAAP operating margin contracted 171 basis points to 16.4%; non-GAAP operating margin contracted 248 basis points to 17.4%.
+•GAAP EPS decreased 3% to $1.253; non-GAAP EPS decreased 1% to $1.38.
+2Q'26 Operating Results
+•Total payment volume (“TPV”) increased 10% to $486.4 billion; 9% FXN.
+•Payment transactions increased 8% to 6.8 billion. Excluding payment service provider transactions4 (“PSP”), payment transactions increased 7%.
+•Payment transactions per active account (“TPA”) on a trailing 12-month basis increased 3% to 60.0. TPA ex-PSP4 increased 7%.
+•Active accounts increased 0.3% to 439 million. On a sequential basis, active accounts decreased by 0.04%, or by 0.2 million.
+Cash Flow
+•Cash flow from operations of $2.0 billion and free cash flow of $1.8 billion.
+•Adjusted free cash flow of $1.8 billion, which excludes the net timing impact between originating buy now, pay later (“BNPL”) receivables as held for sale and the subsequent sale of those receivables.
+Balance Sheet and Liquidity
+•Cash, cash equivalents, and investments totaled $15.3 billion as of June 30, 2026.
+•Debt totaled $13.4 billion as of June 30, 2026.
+•Returned $1.5 billion to stockholders by repurchasing approximately 33 million shares of common stock in 2Q'26.
+◦On a trailing 12-month basis, returned $6.0 billion to stockholders by repurchasing approximately 111 million shares of common stock.
+Dividend Program
+•PayPal’s Board of Directors declared a cash dividend of $0.14 per share on the Company’s common stock, payable on September 25, 2026, to stockholders of record as of the close of business on September 4, 2026.
+
+All growth rates reference 2Q’26 year-over-year growth unless otherwise noted.
+1.TM$, TM$ excluding interest on customer balances, non-GAAP operating income, non-GAAP operating margin, non-GAAP EPS, free cash flow, and adjusted free cash flow are non-GAAP financial measures. “Non-GAAP Measures of Financial Performance” and subsequent tables at the end of this press release provide reconciliations of non-GAAP financial measures to the most directly comparable GAAP financial measures.
+2. Interest on customer balances is reported within other value added services (“OVAS”) revenue and primarily comprises interest and revenue earned on customer assets.
+3. 2Q'26 GAAP EPS includes a ~$0.07 negative impact from PayPal’s strategic investment portfolio and crypto assets held for investment, compared to a ~$0.01 positive impact in 2Q'25.
+4. Payment transactions ex-PSP and TPA ex-PSP exclude unbranded card processing transactions and accounts.
+2Q 2026 Results
+1
+
+2Q'26 Financial Results
+Presented in millions, except per share data and percentages
+2Q'26
+2Q'25
+YoY
+Growth
+FXN
+YoY Growth
+Total payment volume
+$486,448
+$443,547
+10%
+9%
+GAAP
+Net revenues
+$8,682
+$8,288
+5%
+Operating income
+$1,427
+$1,504
+(5%)
+Operating margin
+16.4%
+18.1%
+(171bps)
+Effective tax rate
+15.7%
+17.5%
+(1.8pts)
+Net income (loss)
+$1,104
+$1,261
+(12%)
+Earnings per diluted share
+$1.25
+$1.29
+(3%)
+Net cash provided by operating activities
+$1,983
+$898
+121%
+Non-GAAP
+Net revenues
+$8,682
+$8,288
+5%
+3%
+Transaction margin dollars
+$3,900
+$3,844
+1%
+Transaction margin dollars excluding interest on customer balances
+$3,619
+$3,526
+3%
+Operating income
+$1,507
+$1,644
+(8%)
+Operating margin
+17.4%
+19.8%
+(248bps)
+Effective tax rate
+17.1%
+17.3%
+(0.2pts)
+Net income
+$1,219
+$1,370
+(11%)
+Earnings per diluted share
+$1.38
+$1.40
+(1%)
+Free cash flow
+$1,775
+$692
+157%
+Adjusted free cash flow
+$1,832
+$656
+179%
+Financial Guidance
+2026 Guidance: Following another strong quarter, PayPal is raising full year non-GAAP TM$ and EPS guidance and reaffirming GAAP EPS guidance. Please see PayPal’s 2Q'26 earnings presentation for more detail.
+July 2026 Guidance
+May 2026 Guidance
+Prior year period
+3Q'26
+GAAP EPS
+Low-single digit decline
+N/A
+$1.30
+Non-GAAP EPS1
+Low-single digit decline
+N/A
+$1.34
+FY'26
+GAAP EPS2
+Mid-single digit decline
+Mid-single digit decline
+$5.41
+Non-GAAP EPS3
+~$5.38
+Low-single digit decline to slightly positive
+$5.31
+Please see “Non-GAAP Measures of Financial Performance” for reconciliations of non-GAAP financial measures to the most directly comparable GAAP financial measures and important additional information.
+1. Estimated non-GAAP amounts for the three months ending September 30, 2026 reflect adjustments of approximately $35 million.
+2. FY'25 GAAP EPS included a positive impact of ~$0.14 from PayPal’s strategic investment portfolio and crypto assets held for investment.
+3. Estimated non-GAAP amounts for the full year ending December 31, 2026 reflect adjustments of approximately $350 million which excludes potential second half 2026 transformation related charges.
+2Q 2026 Results
+2
+Conference Call & Webcast
+PayPal Holdings, Inc. will host a conference call to discuss second quarter 2026 results at 8:00 a.m. Eastern Time today. A live webcast of the conference call, together with a slide presentation that includes supplemental financial information and reconciliations of certain non-GAAP measures to their most directly comparable GAAP measures, can be accessed through the company’s Investor Relations website at https://investor.pypl.com. In addition, an archive of the webcast will be accessible for 90 days through the same link.
+Disclosure Channels
+PayPal Holdings, Inc. uses the following channels as means of disclosing information about the company and for complying with its disclosure obligations under Regulation FD:
+•Investor Relations website (https://investor.pypl.com)
+•PayPal Newsroom (https://newsroom.paypal-corp.com/)
+•PayPal Corporate website (https://about.pypl.com)
+•PayPal’s LinkedIn page (https://www.linkedin.com/company/paypal)
+•Enrique Lores’ LinkedIn profile (https://www.linkedin.com/in/enriquelores)
+•Jamie Miller’s LinkedIn profile (https://www.linkedin.com/in/jamiesmiller/)
+•Steven Winoker’s LinkedIn profile (https://www.linkedin.com/in/steven-winoker-0764548/)
+The information that is posted through these channels may be deemed material. Accordingly, investors should monitor these channels in addition to PayPal’s press releases, filings with the Securities and Exchange Commission (“SEC”), public conference calls, and webcasts.
+About PayPal
+Creating innovative experiences that make moving money, selling, and shopping simple, personalized, and secure, PayPal empowers consumers and businesses in approximately 200 markets to join and thrive in the global economy.
+Presentation
+All growth rates represent year-over-year comparisons, except as otherwise noted. FXN results are calculated by translating the current period local currency results by the prior period exchange rate. FXN growth rates are calculated by comparing the current period FXN results with the prior period results, excluding the impact from hedging activities. All amounts in tables are presented in U.S. dollars, rounded to the nearest million, except as otherwise noted. As a result, certain amounts and rates may not sum or recalculate using the rounded dollar amounts provided.
+Non-GAAP Financial Measures
+This press release includes financial measures defined as “non-GAAP financial measures” by the SEC including: non-GAAP net income, non-GAAP earnings per diluted share, non-GAAP operating income, transaction margin dollars, transaction margin dollars excluding interest on customer balances, non-GAAP operating margin, transaction margin, non-GAAP effective tax rate, free cash flow, and adjusted free cash flow. For an explanation of the foregoing non-GAAP measures, please see “Non-GAAP Measures of Financial Performance” included in this press release. These measures may be different from non-GAAP financial measures used by other companies. The presentation of this financial information, which is not prepared under any comprehensive set of accounting rules or principles, is not intended to be considered in isolation of, or as a substitute for, the financial information prepared and presented in accordance with generally accepted accounting principles (“GAAP”). For a reconciliation of these non-GAAP financial measures to the most directly comparable GAAP measures, see “Non-GAAP Measures of Financial Performance,” “Reconciliation of GAAP Operating Income to Non-GAAP Operating Income, Transaction Margin Dollars, and Transaction Margin Dollars Ex-Interest on Customer Balances and GAAP Operating Margin to Non-GAAP Operating Margin and Transaction Margin,” “Reconciliation of GAAP Net Income (Loss) to Non-GAAP Net Income, GAAP Diluted EPS to Non-GAAP Diluted EPS, and GAAP Effective Tax Rate to Non-GAAP Effective Tax Rate,” and “Reconciliation of Operating Cash Flow to Free Cash Flow and Adjusted Free Cash Flow.”
+2Q 2026 Results
+3
+Forward-looking statements
+This press release contains forward-looking statements relating to, among other things, the future results of operations, financial condition, expectations, and plans of PayPal Holdings, Inc. and its consolidated subsidiaries (“PayPal”) that reflect PayPal’s current projections and forecasts. Forward-looking statements can be identified by words such as “may,” “will,” “would,” “should,” “could,” “expect,” “anticipate,” “believe,” “estimate,” “intend,” "continue," “strategy,” “future,” “opportunity,” “plan,” “guidance,” “project,” “forecast,” and other similar expressions. Forward-looking statements may include, but are not limited to, statements regarding our guidance and projected financial and operating results for the third quarter and full year 2026; our capital return program, including share repurchases and dividend payments, if any; our plans with respect to PayPal's business structure and operating model, and the anticipated benefits; our plans to reduce our cost structure, including anticipated cost savings; the timing and impact of product launches and acquisitions; and the projected future growth of PayPal’s businesses. Forward-looking statements are based upon various estimates and assumptions, as well as information known to PayPal as of the date of this press release, and are inherently subject to numerous risks and uncertainties.
+Our actual results could differ materially from those estimated or implied by forward-looking statements. Factors that could cause or contribute to such differences include, but are not limited to: our ability to compete in markets that are highly competitive and subject to rapid technological change, and to develop and deliver new or enhanced products and services on a timely basis; cyberattacks and security vulnerabilities, and associated impacts; the effect of global and regional political, economic, market and trade conditions, including military conflicts, supply chain issues, tariffs or uncertainty thereof, and related events that affect payments or commerce activity, including inflation and interest rates; the impact of catastrophic events, such as global pandemics, that may disrupt our business, as well as our customers, suppliers, vendors and other business partners; the stability, security and performance of our payments platform; the effect of extensive government regulation and oversight related to our business, products and services in a variety of areas, including, but not limited to, laws covering payments, lending and consumer protection; the impact of complex and changing laws and regulations worldwide, including, but not limited to, laws covering cybersecurity, privacy, data protection, and artificial intelligence; the impact of payment card, bank, or other network rules or practices; risks related to our credit products, including our ability to realize benefits from our agreements with third parties such as our agreements to sell our credit receivables; changes in how consumers fund transactions; our ability to effectively detect and prevent the use of our services for fraud, abusive behaviors, illegal activities, or improper purposes; our ability to manage regulatory and litigation risks, and the outcome of legal and regulatory proceedings; our reliance on third parties in many aspects of our business; damage to our reputation or brands; fluctuations in foreign currency exchange rates; changes in tax rates and exposure to additional tax liabilities; changes to our capital allocation, management of operating cash or incurrence of indebtedness; our ability to timely develop and upgrade our technology systems, infrastructure and customer service capabilities; the impact of proposed or completed acquisitions, divestitures, strategic investments, or entries into new businesses or markets; and our ability to attract, hire, and retain highly talented employees. The forward-looking statements in this release do not include the potential impact of any acquisitions or divestitures that may be announced and/or contemplated after the date hereof.
+More information about factors that could adversely affect PayPal’s results of operations, financial condition and prospects, or that could cause actual results to differ from those expressed or implied in forward-looking statements is included under the captions “Risk Factors,” “Legal Proceedings” and “Management’s Discussion and Analysis of Financial Condition and Results of Operations” in PayPal’s most recent annual report on Form 10-K and its subsequent quarterly reports on Form 10-Q, copies of which may be obtained by visiting PayPal’s Investor Relations website at https://investor.pypl.com or the SEC’s website at www.sec.gov. All information in this release speaks as of July 28, 2026. For the reasons discussed above, you should not place undue reliance on the forward-looking statements in this press release. PayPal assumes no obligation to update such forward-looking statements.
+Contacts
+Investor Relations
+Media Relations
+investorrelations@paypal.com
+mediarelations@paypal.com
+
+© 2026 PayPal Holdings, Inc. All rights reserved.
+2Q 2026 Results
+4
+PayPal Holdings, Inc.
+Unaudited Condensed Consolidated Balance Sheets
+June 30,
+2026
+December 31,
+2025
+(In millions, except par value)
+ASSETS
+Current assets:
+
+Cash and cash equivalents
+$
+8,306
+$
+8,049
+Short-term investments
+2,950
+2,373
+Accounts receivable, net
+763
+840
+Loans and interest receivable, held for sale
+1,914
+1,726
+Loans and interest receivable, net
+6,847
+6,746
+Funds receivable and customer accounts
+39,743
+38,198
+Prepaid expenses and other current assets
+1,823
+1,827
+Total current assets
+62,346
+59,759
+Long-term investments
+4,009
+4,330
+Property and equipment, net
+1,731
+1,700
+Goodwill
+10,929
+10,864
+Intangible assets, net
+178
+208
+Other assets
+3,544
+3,312
+Total assets
+$
+82,737
+$
+80,173
+LIABILITIES AND EQUITY
+Current liabilities:
+Accounts payable
+$
+208
+$
+240
+Funds payable and amounts due to customers
+41,743
+40,198
+Short-term debt
+2,505
+1,596
+Accrued expenses and other current liabilities
+3,950
+4,409
+Total current liabilities
+48,406
+46,443
+Other long-term liabilities
+3,616
+3,487
+Long-term debt
+10,895
+9,987
+Total liabilities
+62,917
+59,917
+Equity:
+Common stock, $0.0001 par value; 4,000 shares authorized; 862 and 920 shares outstanding as of June 30, 2026 and December 31, 2025, respectively
+—
+—
+Preferred stock, $0.0001 par value; 100 shares authorized, unissued
+—
+—
+Treasury stock at cost, 490 and 423 shares as of June 30, 2026 and December 31, 2025, respectively
+(36,165)
+(33,138)
+Additional paid-in-capital
+22,056
+21,582
+Retained earnings
+34,432
+32,470
+Accumulated other comprehensive income (loss)
+(503)
+(658)
+Total equity
+19,820
+20,256
+Total liabilities and equity
+$
+82,737
+$
+80,173
+2Q 2026 Results
+5
+PayPal Holdings, Inc.
+Unaudited Condensed Consolidated Statements of Income (Loss)
+Three Months Ended June 30,
+Six Months Ended June 30,
+
+2026
+2025
+2026
+2025
+
+(In millions, except per share amounts)
+Net revenues
+$
+8,682
+$
+8,288
+$
+17,035
+$
+16,079
+Operating expenses:
+Transaction expense
+4,385
+3,968
+8,550
+7,672
+Transaction and credit losses
+397
+476
+775
+847
+Customer support and operations
+462
+413
+908
+811
+Sales and marketing
+546
+583
+1,064
+1,071
+Technology and development
+849
+767
+1,642
+1,498
+General and administrative
+503
+461
+994
+964
+Restructuring and other
+113
+116
+187
+182
+Total operating expenses
+7,255
+6,784
+14,120
+13,045
+Operating income
+1,427
+1,504
+2,915
+3,034
+Other income (expense), net
+(117)
+25
+(212)
+98
+Income before income taxes
+1,310
+1,529
+2,703
+3,132
+Income tax expense
+206
+268
+486
+584
+Net income (loss)
+$
+1,104
+$
+1,261
+$
+2,217
+$
+2,548
+Net income (loss) per share:
+Basic
+$
+1.26
+$
+1.30
+$
+2.48
+$
+2.61
+Diluted
+$
+1.25
+$
+1.29
+$
+2.46
+$
+2.58
+Weighted average shares:
+Basic
+877
+969
+895
+977
+Diluted
+882
+977
+901
+988
+2Q 2026 Results
+6
+PayPal Holdings, Inc.
+Unaudited Condensed Consolidated Statements of Cash Flows
+Three Months Ended June 30,
+Six Months Ended June 30,
+
+2026
+2025
+2026
+2025
+
+(In millions)
+Cash flows from operating activities:
+Net income (loss)
+$
+1,104
+$
+1,261
+$
+2,217
+$
+2,548
+Adjustments to reconcile net income (loss) to net cash provided by operating activities:
+Transaction and credit losses
+397
+476
+775
+847
+Depreciation and amortization
+246
+239
+484
+484
+Stock-based compensation
+275
+286
+534
+535
+Deferred income taxes
+115
+(83)
+(175)
+(89)
+Net (gains) losses on strategic investments
+74
+(11)
+175
+(59)
+Accretion of discounts on investments, net of amortization of premiums
+(11)
+(27)
+(19)
+(57)
+Adjustments to loans and interest receivable, held for sale
+65
+27
+126
+52
+Other
+9
+(224)
+79
+(297)
+Originations of loans receivable, held for sale
+(12,473)
+(7,729)
+(23,779)
+(14,358)
+Proceeds from repayments and sales of loans receivable, originally classified as held for sale
+12,300
+7,667
+23,373
+14,112
+Changes in assets and liabilities:
+Accounts receivable
+80
+(17)
+78
+(115)
+Transaction loss allowance for cash losses, net
+(289)
+(344)
+(602)
+(655)
+Other current assets and non-current assets
+(192)
+(453)
+57
+(389)
+Accounts payable
+54
+2
+2
+(50)
+Other current liabilities and non-current liabilities
+229
+(172)
+(208)
+(451)
+Net cash provided by operating activities
+1,983
+898
+3,117
+2,058
+Cash flows from investing activities:
+Purchases of reverse repurchase agreements
+—
+(1)
+—
+(201)
+Maturities of reverse repurchase agreements
+—
+201
+—
+288
+Purchases of property and equipment
+(208)
+(206)
+(439)
+(402)
+Proceeds from sales of property and equipment
+11
+1
+19
+3
+Purchases and originations of loans receivable
+(4,161)
+(5,982)
+(8,026)
+(11,490)
+Proceeds from repayments and sales of loans receivable, originally classified as held for investment
+3,841
+5,733
+7,595
+11,210
+Purchases of investments
+(7,060)
+(5,594)
+(12,983)
+(11,564)
+Maturities and sales of investments
+5,138
+6,130
+9,659
+11,595
+Acquisitions, net of cash acquired
+—
+—
+(122)
+—
+Funds receivable
+(472)
+(44)
+(824)
+(2,785)
+Collateral posted related to derivative instruments, net
+26
+(263)
+136
+(316)
+Other
+—
+(15)
+—
+(15)
+Net cash used in investing activities
+(2,885)
+(40)
+(4,985)
+(3,677)
+Cash flows from financing activities:
+Borrowings from repurchase agreements
+—
+405
+—
+405
+Repayments of repurchase agreements
+—
+(405)
+—
+(405)
+Proceeds from issuance of common stock
+60
+74
+60
+74
+Purchases of treasury stock
+(1,552)
+(1,551)
+(3,052)
+(3,051)
+Tax withholdings related to net share settlements of equity awards
+(58)
+28
+(185)
+(249)
+Borrowings under financing arrangements
+2,584
+—
+3,514
+1,491
+Repayments under financing arrangements
+(744)
+(1,207)
+(1,676)
+(1,207)
+Funds payable and amounts due to customers
+229
+(504)
+1,323
+913
+Collateral received related to derivative instruments and reverse repurchase agreements, net
+10
+(10)
+118
+(145)
+Payments of dividends to stockholders
+(122)
+—
+(252)
+—
+Other
+(4)
+(4)
+(6)
+(6)
+Net cash (used in) provided by financing activities
+403
+(3,174)
+(156)
+(2,180)
+2Q 2026 Results
+7
+PayPal Holdings, Inc.
+Unaudited Condensed Consolidated Statements of Cash Flows—(continued)
+Three Months Ended June 30,
+Six Months Ended June 30,
+
+2026
+2025
+2026
+2025
+
+(In millions)
+Effect of exchange rate changes on cash, cash equivalents, and restricted cash
+29
+195
+(21)
+289
+Net change in cash, cash equivalents, and restricted cash
+(470)
+(2,121)
+(2,045)
+(3,510)
+Cash, cash equivalents, and restricted cash at beginning of period
+22,443
+21,101
+24,018
+22,490
+Cash, cash equivalents, and restricted cash at end of period
+$
+21,973
+$
+18,980
+$
+21,973
+$
+18,980
+Supplemental cash flow disclosures:
+Cash paid for interest
+$
+194
+$
+189
+$
+212
+$
+191
+Cash paid for income taxes, net
+$
+218
+$
+742
+$
+225
+$
+837
+2Q 2026 Results
+8
+PayPal Holdings, Inc.
+Unaudited Summary of Consolidated Net Revenues
+Our revenues are classified into the following two categories:
+•Transaction revenues: Net transaction fees charged to merchants and consumers on a transaction basis based on the Total Payment Volume (“TPV”) completed on our payments platform. Growth in TPV is directly impacted by the number of payment transactions that we enable on our payments platform. We generate additional revenue from merchants and consumers: on transactions where we perform currency conversion, when we enable cross-border transactions (i.e., transactions where the merchant and consumer are in different countries), when we facilitate the instant transfer of funds for our customers from their PayPal or Venmo account to their bank account or debit card, when we facilitate the purchase and sale of cryptocurrencies, as contractual compensation from sellers that violate our contractual terms (for example, through fraud or counterfeiting), and other miscellaneous fees.
+•Revenues from other value added services: Net revenues derived primarily from revenue earned through partnerships, referral fees, subscription fees, gateway fees, and other services we provide to our consumers and merchants. We also earn revenues from interest and fees earned on our portfolio of loans receivable, and interest earned on certain assets underlying customer balances.
+Net Revenues by Type
+Three Months Ended
+June 30,
+2026
+March 31,
+2026
+December 31,
+2025
+September 30,
+2025
+June 30,
+2025
+(In millions, except percentages)
+Transaction revenues
+$
+7,832
+$
+7,501
+$
+7,819
+$
+7,522
+$
+7,441
+Current quarter vs prior quarter
+4
+%
+(4)
+%
+4
+%
+1
+%
+6
+%
+Current quarter vs prior year quarter
+5
+%
+7
+%
+3
+%
+6
+%
+4
+%
+Percentage of total
+90
+%
+90
+%
+90
+%
+89
+%
+90
+%
+Revenues from other value added services
+$
+850
+$
+852
+$
+857
+$
+895
+$
+847
+Current quarter vs prior quarter
+—
+%
+(1)
+%
+(4)
+%
+6
+%
+9
+%
+Current quarter vs prior year quarter
+—
+%
+10
+%
+10
+%
+15
+%
+16
+%
+Percentage of total
+10
+%
+10
+%
+10
+%
+11
+%
+10
+%
+Total net revenues
+$
+8,682
+$
+8,353
+$
+8,676
+$
+8,417
+$
+8,288
+Current quarter vs prior quarter
+4
+%
+(4)
+%
+3
+%
+2
+%
+6
+%
+Current quarter vs prior year quarter
+5
+%
+7
+%
+4
+%
+7
+%
+5
+%
+Net Revenues by Geography
+Three Months Ended
+June 30,
+2026
+March 31,
+2026
+December 31,
+2025
+September 30,
+2025
+June 30,
+2025
+(In millions, except percentages)
+U.S. net revenues
+$
+5,048
+$
+4,882
+$
+4,943
+$
+4,753
+$
+4,709
+Current quarter vs prior quarter
+3
+%
+(1)
+%
+4
+%
+1
+%
+6
+%
+Current quarter vs prior year quarter
+7
+%
+9
+%
+4
+%
+5
+%
+3
+%
+Percentage of total
+58
+%
+58
+%
+57
+%
+56
+%
+57
+%
+International net revenues
+$
+3,634
+$
+3,471
+$
+3,733
+$
+3,664
+$
+3,579
+Current quarter vs prior quarter
+5
+%
+(7)
+%
+2
+%
+2
+%
+8
+%
+Current quarter vs prior year quarter
+2
+%
+4
+%
+3
+%
+10
+%
+7
+%
+(FXN) Current quarter vs prior year quarter
+(3)
+%
+—
+%
+1
+%
+7
+%
+7
+%
+Percentage of total
+42
+%
+42
+%
+43
+%
+44
+%
+43
+%
+Total net revenues
+$
+8,682
+$
+8,353
+$
+8,676
+$
+8,417
+$
+8,288
+Current quarter vs prior quarter
+4
+%
+(4)
+%
+3
+%
+2
+%
+6
+%
+Current quarter vs prior year quarter
+5
+%
+7
+%
+4
+%
+7
+%
+5
+%
+(FXN) Current quarter vs prior year quarter
+3
+%
+5
+%
+3
+%
+6
+%
+5
+%
+2Q 2026 Results
+9
+PayPal Holdings, Inc.
+Unaudited Supplemental Operating Data
+Three Months Ended
+June 30,
+2026
+March 31,
+2026
+December 31,
+2025
+September 30,
+2025
+June 30,
+2025
+(In millions, except percentages)
+Active accounts(1)
+439
+439
+439
+438
+438
+Current quarter vs prior quarter
+—
+%
+—
+%
+—
+%
+—
+%
+—
+%
+Current quarter vs prior year quarter
+—
+%
+1
+%
+1
+%
+1
+%
+2
+%
+Number of payment transactions(2)
+6,750
+6,475
+6,754
+6,331
+6,226
+Current quarter vs prior quarter
+4
+%
+(4)
+%
+7
+%
+2
+%
+3
+%
+Current quarter vs prior year quarter
+8
+%
+7
+%
+2
+%
+(5)
+%
+(5)
+%
+Payment transactions per active account(3)
+60.0
+58.7
+57.7
+57.6
+58.3
+Current quarter vs prior quarter
+2
+%
+2
+%
+—
+%
+(1)
+%
+(2)
+%
+Current quarter vs prior year quarter
+3
+%
+(1)
+%
+(5)
+%
+(6)
+%
+(4)
+%
+TPV(4)
+$
+486,448
+$
+463,955
+$
+475,135
+$
+458,088
+$
+443,547
+Current quarter vs prior quarter
+5
+%
+(2)
+%
+4
+%
+3
+%
+6
+%
+Current quarter vs prior year quarter
+10
+%
+11
+%
+9
+%
+8
+%
+6
+%
+(FXN) Current quarter vs prior year quarter
+9
+%
+8
+%
+6
+%
+7
+%
+5
+%
+Transaction Expense Rate(5)
+0.90
+%
+0.90
+%
+0.89
+%
+0.89
+%
+0.89
+%
+Transaction and Credit Loss Rate(6)
+0.08
+%
+0.08
+%
+0.08
+%
+0.11
+%
+0.11
+%
+Transaction Margin(7)
+44.9
+%
+45.6
+%
+46.5
+%
+46.0
+%
+46.4
+%
+Amounts in the table are rounded to the nearest million, except as otherwise noted. As a result, certain amounts may not recalculate using the rounded amounts provided.
+(1) An active account is an account registered directly with PayPal or a platform access partner that has completed a transaction on our platform, not including gateway-exclusive transactions, within the past 12 months. A platform access partner is a third party whose customers are provided access to PayPal’s platform or services through such third-party’s login credentials, including individuals and entities that utilize Hyperwallet’s payout capabilities. A user may register on our platform to access different products and may register more than one account to access a product. Accordingly, a user may have more than one active account. The number of active accounts provides management with additional perspective on the overall scale of our platform, but may not have a direct relationship to our operating results.
+(2) Number of payment transactions is the total number of payments, net of payment reversals, successfully completed on our payments platform or enabled by PayPal via a partner payment solution, not including gateway-exclusive transactions.
+(3) Number of payment transactions per active account reflects the total number of payment transactions within the previous 12-month period, divided by active accounts at the end of the period. The number of payment transactions per active account provides management with insight into the average number of times an account engages in payments activity on our payments platform in a given period. The number of times a consumer account or a merchant account transacts on our platform may vary significantly from the average number of payment transactions per active account.
+(4) TPV is the value of payments, net of payment reversals, successfully completed on our payments platform or enabled by PayPal via a partner payment solution, not including gateway-exclusive transactions.
+(5) Transaction expense rate is transaction expense divided by TPV.
+(6) Transaction and credit loss rate is transaction and credit losses divided by TPV.
+(7) Transaction margin is a non-GAAP financial measure. Transaction margin is net revenues less transaction expense and transaction and credit losses, divided by net revenues. Subsequent tables at the end of this press release provide reconciliation to the closest GAAP measure.
+2Q 2026 Results
+10
+PayPal Holdings, Inc.
+Non-GAAP Measures of Financial Performance
+To supplement the company’s condensed consolidated financial statements presented in accordance with generally accepted accounting principles, or GAAP, the company uses non-GAAP measures of certain components of financial performance. These non-GAAP measures include non-GAAP net income, non-GAAP earnings per diluted share, non-GAAP operating income, transaction margin dollars, transaction margin dollars excluding interest on customer balances, non-GAAP operating margin, transaction margin, non-GAAP effective tax rate, free cash flow, and adjusted free cash flow.
+These non-GAAP measures are not in accordance with, or an alternative to, measures prepared in accordance with GAAP and may be different from non-GAAP measures used by other companies. In addition, these non-GAAP measures are not based on any comprehensive set of accounting rules or principles. Non-GAAP measures have limitations in that they do not reflect all of the amounts associated with the company’s results of operations as determined in accordance with GAAP. These measures should be used to evaluate the company’s results of operations only in conjunction with the corresponding GAAP measures.
+Reconciliation of all non-GAAP measures to the most directly comparable GAAP measures can be found in the subsequent tables included in this press release. PayPal does not reconcile forward-looking non-GAAP guidance because certain financial information, the probable significance of which cannot be determined, is not available and cannot be reasonably estimated.
+These non-GAAP measures are provided to enhance investors’ overall understanding of the company’s current financial performance and its prospects for the future. Specifically, the company believes the non-GAAP measures provide useful information to both management and investors by excluding certain expenses, gains and losses, as the case may be, that may not be indicative of its core operating results and business outlook. In addition, because the company has historically reported certain non-GAAP results to investors, the company believes that the inclusion of non-GAAP measures provides consistency in the company’s financial reporting.
+For its internal budgeting process, and as discussed further below, the company’s management uses financial measures that do not include amortization or impairment of acquired intangible assets, impairment of goodwill, transaction expenses from the acquisition or disposal of a business, restructuring-related charges, gains and losses on strategic investments including related crypto assets held for investment, certain other gains, losses, benefits, or charges that are not indicative of the company’s core operating results, and the income taxes associated with the foregoing. In addition to the corresponding GAAP measures, the company’s management also uses the foregoing non-GAAP measures in reviewing the financial results of the company.
+The company excludes the following items from non-GAAP net income, non-GAAP earnings per diluted share, non-GAAP operating income, non-GAAP operating margin, and non-GAAP effective tax rate:
+Amortization or impairment of acquired intangible assets, impairment of goodwill, and transaction expenses from the acquisition or disposal of a business. We incur amortization or impairment of acquired intangible assets and goodwill in connection with acquisitions and may incur significant gains or losses or transactional expenses from the acquisition or disposal of a business and therefore exclude these amounts from our non-GAAP measures. We exclude these items because management does not believe they are reflective of our ongoing operating results.
+Restructuring. These consist of expenses related to workforce reduction including employee severance and benefits costs and stock-based compensation expense, real estate and facilities charges, other asset impairments, accelerated depreciation charges, and other restructuring costs including non-recurring third-party costs. The company excludes significant restructuring charges primarily because management does not believe they are reflective of ongoing operating results as they are not normal, recurring cash operating expenses necessary to operate our business.
+Gains and losses on strategic investments including related crypto assets held for investment. The gains and losses we record on our strategic investments are tied to the performance of the portfolio companies. The gains and losses we record on crypto assets held for investment are influenced by factors like market sentiment including trading, regulatory changes, and underlying company performance. We exclude such gains and losses in full because we do not actively trade our strategic investments or crypto assets nor do we rely on them to fund our ongoing operations.
+Certain other significant gains, losses, benefits, or charges that are not indicative of the company’s core operating results. These are significant gains, losses, benefits, or charges during a period that are the result of isolated events or transactions that have not occurred frequently in the past and are not expected to occur regularly in the future. The company excludes these amounts from its non-GAAP results because management does not believe they are indicative of our current or ongoing operating results.
+Tax effect of non-GAAP adjustments. This adjustment is made to present the amounts described above on an after-tax basis consistent with the presentation of non-GAAP net income.
+Transaction margin dollars represents operating income, excluding the following expenses: (i) Customer support and operations, (ii) Sales and marketing, (iii) Technology and development, (iv) General and administrative, and (v) Restructuring and other. Transaction margin dollars is a measure used by management to evaluate the economic value generated by activity on the company’s platform, including the impact of transaction and credit losses. Accordingly, we believe that transaction margin dollars provides useful information to investors and others in understanding and evaluating our financial results in the same manner as management. Transaction margin dollars can also be calculated as total net revenues less transaction expense and transaction and credit losses.
+Transaction margin dollars excluding interest on customer balances: Interest earned on certain assets underlying customer account balances is primarily driven by the movement in interest rates and level of account balances. The company excludes interest revenue earned on customer balances from transaction margin dollars because the impact of changes in interest rates on customer balances is not within the company’s control. Management uses this metric to further isolate the economic value generated by activity on the company’s platform.
+2Q 2026 Results
+11
+PayPal Holdings, Inc.
+Non-GAAP Measures of Financial Performance—(continued)
+Free cash flow represents operating cash flows less purchases of property and equipment. The company uses free cash flow as a liquidity measure that provides useful information to management and investors about the amount of cash generated by the business after the purchases of property, buildings, and equipment, which can then be used to, among other things, invest in the company’s business, make strategic acquisitions and investments, and repurchase stock. Adjusted free cash flow excludes the net timing impact between originating credit receivables as held for sale and the subsequent sale of receivables from free cash flow. Excluding this activity provides a clearer picture of the cash generated by the business. A limitation of the utility of free cash flow or adjusted free cash flow as measures of financial performance is that it does not represent the total increase or decrease in the company’s cash balance for the period.
+In addition to the non-GAAP measures discussed above, the company also analyzes certain measures, including net revenues and operating expenses, on an FX-neutral basis to better measure the comparability of operating results between periods. The company believes that changes in foreign currency exchange rates are not indicative of the company’s operations and evaluating growth in net revenues and operating expenses on an FX-neutral basis provides an additional meaningful and comparable assessment of these measures to both management and investors. FX-neutral results are calculated by translating the current period’s local currency results with the prior period’s exchange rate. FX-neutral growth rates are calculated by comparing the current period’s FX-neutral results by the prior period’s results, excluding the impact from hedging activities.
+2Q 2026 Results
+12
+PayPal Holdings, Inc.
+Reconciliation of GAAP Operating Income to Non-GAAP Operating Income, Transaction Margin Dollars, and Transaction Margin Dollars Ex-Interest on Customer Balances and
+GAAP Operating Margin to Non-GAAP Operating Margin and Transaction Margin
+Three Months Ended June 30,
+2026
+2025
+(In millions, except percentages)
+(unaudited)
+GAAP operating income
+$
+1,427
+$
+1,504
+Amortization of acquired intangible assets
+34
+48
+Restructuring(1)
+46
+92
+Total non-GAAP operating income adjustments
+80
+140
+Non-GAAP operating income
+$
+1,507
+$
+1,644
+Transaction margin adjustments:
+Customer support and operations
+462
+413
+Sales and marketing
+523
+542
+Technology and development
+846
+767
+General and administrative
+495
+454
+Restructuring and other
+67
+24
+Non transaction-related expense
+2,393
+2,200
+Transaction margin dollars
+3,900
+3,844
+Interest on customer balances
+281
+318
+Transaction margin dollars ex-interest on customer balances
+$
+3,619
+$
+3,526
+GAAP net revenues
+$
+8,682
+$
+8,288
+GAAP operating margin
+16
+%
+18
+%
+Non-GAAP operating margin
+17
+%
+20
+%
+Transaction margin
+45
+%
+46
+%
+(1) The three months ended June 30, 2026 include $19 million of stock-based compensation expense associated with restructuring activities.
+2Q 2026 Results
+13
+PayPal Holdings, Inc.
+Reconciliation of GAAP Net Income (Loss) to Non-GAAP Net Income, GAAP Diluted EPS to Non-GAAP Diluted EPS, and
+GAAP Effective Tax Rate to Non-GAAP Effective Tax Rate
+Three Months Ended June 30,
+2026
+2025
+(In millions, except per share data and percentages)
+(unaudited)
+GAAP income before income taxes
+$
+1,310
+$
+1,529
+GAAP income tax expense
+206
+268
+GAAP net income (loss)
+1,104
+1,261
+Non-GAAP adjustments to net income (loss):
+Non-GAAP operating income adjustments (see table above)
+80
+140
+Net (gains) losses on strategic investments and crypto assets held for investment
+81
+(12)
+Other(1)
+(12)
+—
+Tax effect of non-GAAP adjustments
+(34)
+(19)
+Non-GAAP net income
+$
+1,219
+$
+1,370
+Diluted net income (loss) per share:
+GAAP
+$
+1.25
+$
+1.29
+Non-GAAP
+$
+1.38
+$
+1.40
+Shares used in GAAP diluted share calculation
+882
+977
+Shares used in non-GAAP diluted share calculation
+882
+977
+GAAP effective tax rate
+16
+%
+18
+%
+Tax effect of non-GAAP adjustments to net income (loss)
+1
+%
+(1)
+%
+Non-GAAP effective tax rate
+17
+%
+17
+%
+(1) Includes tax impact related to intra-group transfer of intellectual property.
+Reconciliation of Operating Cash Flow to Free Cash Flow and Adjusted Free Cash Flow
+Three Months Ended June 30,
+2026
+2025
+(In millions)
+(unaudited)
+Net cash provided by operating activities
+$
+1,983
+$
+898
+Less: Purchases of property and equipment
+(208)
+(206)
+Free cash flow
+1,775
+692
+Net timing impact between originating credit receivables as held for sale and the subsequent sale of receivables
+57
+(36)
+Adjusted free cash flow
+$
+1,832
+$
+656
+2Q 2026 Results
+14

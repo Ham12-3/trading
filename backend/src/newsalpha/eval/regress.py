@@ -67,6 +67,7 @@ def write_baseline(
     threshold: float,
     path: Path = BASELINE_PATH,
     texts_dir: Path = TEXTS_DIR,
+    gold_file: str = "gold.jsonl",
 ) -> None:
     """Freeze the subset texts and the reference scores."""
     texts_dir.mkdir(parents=True, exist_ok=True)
@@ -79,6 +80,7 @@ def write_baseline(
         "prompt_version": prompt.version,
         "prompt_sha256": prompt.sha256,
         "threshold": threshold,
+        "gold_file": gold_file,  # label file (in eval/gold/) the subset's labels come from
         "subset": [
             {
                 "source": d.record.source,

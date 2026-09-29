@@ -95,6 +95,9 @@ def run_eval(
         sleep=sleep,
     )
     metrics = score([g.labels for g in gold], load_predictions(session, model, prompt.version, ids))
+    # Who produced the labels matters for how results may be described (human gold vs AI labels).
+    metrics["gold_file"] = gold_path.name
+    metrics["labellers"] = sorted({g.labeller for g in gold})
     run = EvalRun(
         model=model,
         prompt_version=prompt.version,
