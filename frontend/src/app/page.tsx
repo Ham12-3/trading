@@ -1,9 +1,37 @@
+import Link from "next/link";
 import { connection } from "next/server";
-import { apiGet, type Health } from "@/lib/api";
+import { ApiError, Card, GuidanceBadge, ToneBadge } from "@/components/ui";
+import {
+  apiGet,
+  type Announcement,
+  type AnnouncementPage,
+  type BacktestGroup,
+  type Company,
+  type Health,
+} from "@/lib/api";
+import { etDateTime, num } from "@/lib/format";
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-border bg-surface rounded-lg border p-4">
+      <div className="text-muted text-xs">{label}</div>
+      <div className="mt-1 text-2xl font-semibold">{value}</div>
+    </div>
+  );
+}
 
 export default async function Overview() {
-  await connection(); // health is per-request, never prerendered
-  const health = await apiGet<Health>("/health");
+  await connection(); // live data, never prerendered
+  const [health, companies, anns, latest, bt] = await Promise.all([
+    apiGet<Health>("/health"),
+    apiGet<Company[]>("/companies"),
+    apiGet<AnnouncementPage>("/announcements?page_size=1"),
+    apiGet<Announcement[]>("/signals/latest?limit=6"),
+    apiGet<BacktestGroup>("/backtests?curves=false"),
+  ]);
+  const oos = bt.ok
+    ? bt.data.runs.find((r) => r.strategy === "llm_composite" && r.period === "out_of_sample")
+    : undefined;
 
   return (
     <div className="space-y-8">
@@ -16,23 +44,47 @@ export default async function Overview() {
         </p>
       </section>
 
-      <section className="border-border bg-surface rounded-lg border p-4">
-        <h2 className="text-muted mb-3 text-sm font-medium">System status</h2>
-        {health.ok ? (
-          <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">
-            <dt className="text-muted">API</dt>
-            <dd className={health.data.status === "ok" ? "text-positive" : "text-warn"}>
-              {health.data.status} (v{health.data.version})
-            </dd>
-            <dt className="text-muted">Database</dt>
-            <dd className={health.data.database === "ok" ? "text-positive" : "text-negative"}>
-              {health.data.database}
-            </dd>
-          </dl>
+      {!health.ok ? (
+        <ApiError error={health.error} />
+      ) : (
+        <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <Stat label="Companies" value={companies.ok ? String(companies.data.length) : "–"} />
+          <Stat label="Announcements" value={anns.ok ? anns.data.total.toLocaleString() : "–"} />
+          <Stat
+            label="LLM strategy Sharpe, out-of-sample"
+            value={oos ? num(oos.metrics.sharpe) : "–"}
+          />
+          <Stat label="System status" value={health.data.database === "ok" ? "OK" : "Degraded"} />
+        </section>
+      )}
+
+      <Card title="Latest extracted signals">
+        {!latest.ok ? (
+          <ApiError error={latest.error} />
         ) : (
-          <p className="text-negative text-sm break-words">API unreachable. {health.error}</p>
+          <ul className="divide-border divide-y">
+            {latest.data.map((a) => (
+              <li key={a.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2 text-sm">
+                <Link href={`/announcements/${a.id}`} className="w-16 font-medium hover:underline">
+                  {a.ticker}
+                </Link>
+                <span className="text-muted w-44 text-xs tabular-nums">
+                  {etDateTime(a.accepted_at)}
+                </span>
+                {a.signal ? (
+                  <>
+                    <GuidanceBadge value={a.signal.guidance_direction} />
+                    <ToneBadge value={a.signal.management_tone} />
+                  </>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         )}
-      </section>
+        <Link href="/feed" className="text-accent mt-2 inline-block text-sm hover:underline">
+          Full feed →
+        </Link>
+      </Card>
     </div>
   );
 }
