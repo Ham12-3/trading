@@ -12,8 +12,10 @@ const PERIODS: { value: Period; label: string }[] = [
 // Colour follows the strategy (not its rank), the same on every chart and period.
 const SERIES: SeriesDef[] = [
   { key: "llm_composite", name: "LLM composite", color: "var(--series-1)" },
+  { key: "llm_plus_eps_surprise", name: "LLM + EPS surprise", color: "var(--series-5)" },
+  { key: "baseline_eps_surprise", name: "Baseline: EPS surprise", color: "var(--series-4)" },
   { key: "baseline_opening_gap", name: "Baseline: opening gap", color: "var(--series-2)" },
-  { key: "baseline_beat_miss", name: "Baseline: beat/miss", color: "var(--series-3)" },
+  { key: "baseline_beat_miss", name: "Baseline: beat/miss in text", color: "var(--series-3)" },
 ];
 
 function merge(runs: BacktestRun[], field: 1 | 2): CurvePoint[] {

@@ -31,6 +31,12 @@ export type SignalSummary = {
   summary: string;
 };
 
+export type Eps = {
+  eps_estimate: number | null;
+  eps_reported: number | null;
+  surprise_pct: number | null;
+};
+
 export type Announcement = {
   id: number;
   ticker: string;
@@ -42,6 +48,7 @@ export type Announcement = {
   item_codes: string[];
   url: string;
   signal: SignalSummary | null;
+  eps: Eps | null;
 };
 
 export type AnnouncementPage = {

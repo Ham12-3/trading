@@ -13,7 +13,7 @@ tests whether those signals predict stock returns over the following days.
 
 ## Results at a glance
 
-These figures are a snapshot of the stored runs (backtest run `a0743588`, 29 Sep 2026). The
+These figures are a snapshot of the stored runs (backtest run `71ffdd7f`, 29 Sep 2026). The
 dashboard reads the live numbers from the API.
 
 **Data:** 1,138 earnings releases from 100 S&P 100 companies (Jan 2024 to Sep 2026), with 71,306
@@ -32,8 +32,12 @@ out-of-sample period (2025-07-01 to 2026-09-25) was run once with the parameters
 | **LLM composite** | **out-of-sample** | **0.57** | 160 | 51% | +0.27% |
 | Baseline: opening gap (no LLM) | in-sample | -0.82 | 477 | 49% | -0.20% |
 | Baseline: opening gap (no LLM) | out-of-sample | -1.14 | 408 | 47% | -0.34% |
-| Baseline: beat/miss (PRD naive rule) | in-sample | -2.26 | 66 | 29% | -1.49% |
-| Baseline: beat/miss (PRD naive rule) | out-of-sample | 1.00 | 51 | 53% | +0.87% |
+| LLM + EPS surprise | in-sample | -0.74 | 338 | 49% | -0.25% |
+| LLM + EPS surprise | out-of-sample | -0.46 | 311 | 46% | -0.16% |
+| Baseline: EPS surprise vs consensus (no LLM) | in-sample | -0.83 | 457 | 48% | -0.26% |
+| Baseline: EPS surprise vs consensus (no LLM) | out-of-sample | -0.14 | 406 | 47% | -0.05% |
+| Baseline: beat/miss stated in text | in-sample | -2.26 | 66 | 29% | -1.49% |
+| Baseline: beat/miss stated in text | out-of-sample | 1.00 | 51 | 53% | +0.87% |
 
 How to read this:
 
@@ -41,9 +45,15 @@ How to read this:
   with a near coin-flip hit rate and a small edge per trade. That is encouraging, not tradable.
 - **It beats the honest non-LLM baseline.** The baseline follows the stock's opening gap relative
   to SPY, which is the market's own first reaction and is known at entry. It loses in both periods.
-- **The beat/miss baseline is noise.** Releases rarely state beat or miss against expectations,
-  and the model is barred from using outside knowledge, so there were only 7 and 3 miss trades.
-  Its sign flips between periods.
+- **The numeric EPS surprise adds nothing after the open.** Reported EPS against the analyst
+  consensus (Yahoo Finance) is the PRD's naive "beat = long, miss = short" rule done properly: it
+  covers about 95% of releases. It still loses, because the market prices the surprise into the
+  opening gap before the strategy can trade.
+- **Adding the surprise to the LLM score makes it worse.** About 70% of releases beat consensus,
+  so it floods the book with long trades that have no edge. The LLM's reading of guidance carries
+  information the headline EPS number does not.
+- **The beat/miss-in-text baseline is noise.** Releases rarely state beat or miss themselves, so
+  there were only 7 and 3 miss trades, and its sign flips between periods.
 - **Absolute returns are tiny because the book is mostly empty.** Positions are 2% each and about
   2 are open on a typical day, so average exposure is about 4% of capital. Sharpe and net return
   per trade are the comparable numbers.
@@ -58,10 +68,14 @@ already in the opening gap is excluded.
 | Guidance **raised** | +0.27% (t 0.75, n 101) | **+0.92% (t 2.35, n 125)** |
 | Guidance **lowered** | -0.11% (n 43) | -0.41% (n 28) |
 | Tone, top tercile | **+0.60% (t 2.25, n 194)** | -0.05% (t -0.17, n 226) |
+| EPS **miss** vs consensus (> 2% below) | -0.19% (n 65) | **-1.62% (t -1.64, n 40)** |
+| EPS **beat** vs consensus (> 2% above) | +0.16% (n 393) | +0.06% (n 366) |
 
 - **Guidance direction carries the signal.** It points the same way in both periods.
 - **Tone looked significant in-sample and disappeared out-of-sample.** This is exactly why the
   split exists.
+- **Out-of-sample, numeric EPS misses kept drifting down** (about -2% over 3 days), but not
+  in-sample, so it is not a reliable pattern.
 
 ### Extraction quality
 
@@ -94,7 +108,7 @@ both sides answer "unknown".
 flowchart LR
     subgraph Sources
         EDGAR["SEC EDGAR<br/>8-K Item 2.02<br/>(rate-limited, User-Agent)"]
-        YF["Yahoo Finance<br/>daily OHLCV (yfinance)"]
+        YF["Yahoo Finance<br/>daily OHLCV + EPS consensus (yfinance)"]
     end
 
     subgraph Backend["Backend (Python 3.12, FastAPI)"]
@@ -194,6 +208,7 @@ what is missing.
 |---|---|---|---|
 | Prices | `uv run newsalpha ingest prices --since 2023-12-01` | ~10 min | free |
 | Announcements | `uv run newsalpha ingest announcements --since 2024-01-01` | ~25 min | free |
+| EPS consensus | `uv run newsalpha ingest eps` | ~5 min | free |
 | Signals | `uv run newsalpha extract` | ~30 min | ~$1.50 |
 | Events | `uv run newsalpha events build` | seconds | free |
 | Event study | `uv run newsalpha events summary --period out_of_sample` | seconds | free |
@@ -265,7 +280,11 @@ docs/screenshots/
   no slippage model. Post-earnings opening auctions can be wider than that.
 - **Tuning.** The chosen tone weight and threshold sit at the edge of a small grid. Out-of-sample
   did not degrade, but it is one period.
-- **Data.** Prices come from Yahoo Finance (free, not audited). Ticker changes (BK to BNY) and
+- **EPS consensus timing.** Yahoo's consensus is its snapshot around the report date, not a
+  timestamped point-in-time series. Reported EPS is on the analysts' adjusted basis. Only EPS is
+  covered; free historical revenue consensus was not available from Yahoo.
+- **Data.** Prices and EPS consensus come from Yahoo Finance (free, not audited; yfinance is an
+  unofficial interface). Ticker changes (BK to BNY) and
   holding-company reorganisations (XOM, BLK) are mapped by hand in `universe.yaml`.
 
 ## Decisions that differ from the PRD
@@ -274,8 +293,9 @@ docs/screenshots/
   interface, so another provider is one class away.
 - **Evaluation labels by Claude, not the owner** (owner's choice). They are clearly marked
   everywhere, and a human set can be added with `eval label`.
-- **An extra non-LLM baseline.** The PRD's naive beat/miss rule trades too rarely to judge
-  anything, so the main baseline follows the stock's opening gap instead. Both are reported.
+- **Extra non-LLM baselines.** Beat/miss taken from the release text trades too rarely to judge,
+  so the PRD's naive rule is implemented on numeric EPS surprise vs analyst consensus. The
+  opening-gap baseline is also reported.
 - **Universe source.** The PRD asked for 50 to 100 large caps without look-ahead. This uses the
   S&P 100 as of 2023-09-18 (Wikipedia revision `1190636511`), with GOOG dropped as a duplicate of
   GOOGL.

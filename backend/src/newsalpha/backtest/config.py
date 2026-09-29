@@ -54,6 +54,11 @@ class Composite(_Strict):
 
 class Baselines(_Strict):
     opening_gap_threshold: float = Field(ge=0)
+    eps_surprise_threshold: float = Field(default=0.02, ge=0)
+
+
+class Combined(_Strict):
+    eps_surprise_weight: float = 1.0
 
 
 class PortfolioConfig(_Strict):
@@ -73,6 +78,7 @@ class BacktestConfig(_Strict):
     periods: Periods
     composite: Composite
     baselines: Baselines
+    combined: Combined = Combined()
     portfolio: PortfolioConfig
     tuning: Tuning
 

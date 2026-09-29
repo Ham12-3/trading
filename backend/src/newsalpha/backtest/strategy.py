@@ -43,6 +43,13 @@ def beat_miss_sides(frame: pd.DataFrame) -> pd.Series:
     return pd.Series(np.where(beat, 1, np.where(miss, -1, 0)), index=frame.index, dtype=int)
 
 
+def eps_surprise_sides(frame: pd.DataFrame, threshold: float) -> pd.Series:
+    """Numeric beat/miss vs analyst consensus: +1 if surprise > threshold, -1 if < -threshold."""
+    s = frame["eps_surprise_pct"]
+    side = np.where(s > threshold, 1, np.where(s < -threshold, -1, 0))
+    return pd.Series(side, index=frame.index, dtype=int)
+
+
 def gap_sides(frame: pd.DataFrame, threshold: float) -> pd.Series:
     """Follow the market's first reaction: sign of the abnormal opening gap beyond ``threshold``."""
     gap = frame["gap_abnormal"]

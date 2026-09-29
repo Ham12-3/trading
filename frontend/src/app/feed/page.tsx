@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { ApiError, ExpectationText, GuidanceBadge, PageHeader, ToneBadge } from "@/components/ui";
+import {
+  ApiError,
+  EpsSurprise,
+  ExpectationText,
+  GuidanceBadge,
+  PageHeader,
+  ToneBadge,
+} from "@/components/ui";
 import { apiGet, query, type AnnouncementPage, type Company } from "@/lib/api";
 import { etDateTime } from "@/lib/format";
 
@@ -60,14 +67,19 @@ export default async function FeedPage({
       ) : (
         <>
           <div className="border-border bg-surface overflow-x-auto rounded-lg border">
-            <table className="w-full min-w-[760px] text-sm">
+            <table className="w-full min-w-[860px] text-sm">
               <thead className="text-muted text-left text-xs">
                 <tr className="border-border border-b">
                   <th className="px-3 py-2 font-medium">Accepted</th>
                   <th className="px-3 py-2 font-medium">Company</th>
                   <th className="px-3 py-2 font-medium">Guidance</th>
                   <th className="px-3 py-2 font-medium">Tone</th>
-                  <th className="px-3 py-2 font-medium">Rev / EPS vs exp.</th>
+                  <th className="px-3 py-2 font-medium" title="As stated in the release text">
+                    Rev / EPS vs exp. (text)
+                  </th>
+                  <th className="px-3 py-2 font-medium" title="Reported EPS vs analyst consensus">
+                    EPS vs consensus
+                  </th>
                   <th className="px-3 py-2 font-medium">Summary</th>
                 </tr>
               </thead>
@@ -96,6 +108,9 @@ export default async function FeedPage({
                           <span className="text-muted"> / </span>
                           <ExpectationText value={a.signal.eps_vs_expectation} />
                         </td>
+                        <td className="px-3 py-2">
+                          <EpsSurprise eps={a.eps} />
+                        </td>
                         <td className="text-muted max-w-md px-3 py-2 text-xs">
                           {a.signal.summary}
                           <a
@@ -109,7 +124,7 @@ export default async function FeedPage({
                         </td>
                       </>
                     ) : (
-                      <td colSpan={4} className="text-muted px-3 py-2 text-xs">
+                      <td colSpan={5} className="text-muted px-3 py-2 text-xs">
                         No extracted signal yet.{" "}
                         <a href={a.url} target="_blank" rel="noreferrer" className="text-accent">
                           SEC filing ↗

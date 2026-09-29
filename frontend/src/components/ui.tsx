@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import type { Expectation, Guidance } from "@/lib/api";
-import { label, num } from "@/lib/format";
+import type { Eps, Expectation, Guidance } from "@/lib/api";
+import { label, num, pct } from "@/lib/format";
 
 export function PageHeader({ title, children }: { title: string; children?: ReactNode }) {
   return (
@@ -81,6 +81,18 @@ export function ExpectationText({ value }: { value: Expectation }) {
   const cls =
     value === "beat" ? "text-positive" : value === "miss" ? "text-negative" : "text-muted";
   return <span className={`text-xs ${cls}`}>{value}</span>;
+}
+
+/** Numeric EPS surprise vs analyst consensus (not from the LLM); within ±2% is inline. */
+export function EpsSurprise({ eps }: { eps: Eps | null }) {
+  if (!eps || eps.surprise_pct === null) return <span className="text-muted text-xs">–</span>;
+  const s = eps.surprise_pct;
+  const verdict = s > 0.02 ? "beat" : s < -0.02 ? "miss" : "inline";
+  return (
+    <span className="text-xs whitespace-nowrap tabular-nums">
+      <ExpectationText value={verdict} /> <span className="text-muted">{pct(s, 1)}</span>
+    </span>
+  );
 }
 
 /** Tone in [-1, 1] as a signed number with a word; a small bar shows where it sits. */

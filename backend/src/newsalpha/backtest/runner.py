@@ -26,11 +26,12 @@ from newsalpha.backtest.portfolio import SimulationResult, Trade, simulate
 from newsalpha.backtest.strategy import (
     beat_miss_sides,
     composite_score,
+    eps_surprise_sides,
     gap_sides,
     threshold_sides,
 )
 from newsalpha.core.calendar import TradingCalendar
-from newsalpha.db.models import Announcement, BacktestRun, Company, Event, Signal
+from newsalpha.db.models import Announcement, BacktestRun, Company, EpsSurprise, Event, Signal
 
 SIGNAL_FIELDS = (
     "guidance_direction",
@@ -38,7 +39,13 @@ SIGNAL_FIELDS = (
     "eps_vs_expectation",
     "management_tone",
 )
-STRATEGIES = ("llm_composite", "baseline_opening_gap", "baseline_beat_miss")
+STRATEGIES = (
+    "llm_composite",
+    "llm_plus_eps_surprise",
+    "baseline_eps_surprise",
+    "baseline_opening_gap",
+    "baseline_beat_miss",
+)
 
 
 def load_event_frame(session: Session, model: str, prompt_version: str) -> pd.DataFrame:
@@ -54,6 +61,7 @@ def load_event_frame(session: Session, model: str, prompt_version: str) -> pd.Da
             Event.ar_3,
             Event.ar_5,
             Signal.payload,
+            EpsSurprise.surprise_pct,
         )
         .join(Announcement, Announcement.id == Event.announcement_id)
         .join(Company, Company.id == Announcement.company_id)
@@ -64,10 +72,11 @@ def load_event_frame(session: Session, model: str, prompt_version: str) -> pd.Da
             & (Signal.prompt_version == prompt_version)
             & (Signal.status == "ok"),
         )
+        .outerjoin(EpsSurprise, EpsSurprise.announcement_id == Event.announcement_id)
         .where(Event.entry_price.is_not(None))
     ).all()
     records = []
-    for eid, aid, ticker, t0, gap, ar1, ar3, ar5, payload in rows:
+    for eid, aid, ticker, t0, gap, ar1, ar3, ar5, payload, eps_surprise in rows:
         rec: dict[str, Any] = {
             "event_id": eid,
             "announcement_id": aid,
@@ -77,6 +86,7 @@ def load_event_frame(session: Session, model: str, prompt_version: str) -> pd.Da
             "ar_1": ar1,
             "ar_3": ar3,
             "ar_5": ar5,
+            "eps_surprise_pct": eps_surprise,
         }
         for f in SIGNAL_FIELDS:
             rec[f] = payload.get(f) if payload else None
@@ -84,6 +94,7 @@ def load_event_frame(session: Session, model: str, prompt_version: str) -> pd.Da
     frame = pd.DataFrame.from_records(records)
     if not frame.empty:
         frame["management_tone"] = pd.to_numeric(frame["management_tone"])
+        frame["eps_surprise_pct"] = pd.to_numeric(frame["eps_surprise_pct"])
     return frame.sort_values(["t0", "event_id"]).reset_index(drop=True)
 
 
@@ -117,6 +128,16 @@ def strategy_trades(
         score = composite_score(frame, params.weights, params.tone_center)
         sides = threshold_sides(score, params.long_threshold, params.short_threshold)
         strength = score.fillna(0.0)
+    elif strategy == "llm_plus_eps_surprise":
+        surprise = eps_surprise_sides(frame, config.baselines.eps_surprise_threshold)
+        score = composite_score(frame, params.weights, params.tone_center) + (
+            config.combined.eps_surprise_weight * surprise
+        )
+        sides = threshold_sides(score, params.long_threshold, params.short_threshold)
+        strength = score.fillna(0.0)
+    elif strategy == "baseline_eps_surprise":
+        sides = eps_surprise_sides(frame, config.baselines.eps_surprise_threshold)
+        strength = frame["eps_surprise_pct"].abs().fillna(0.0)
     elif strategy == "baseline_opening_gap":
         sides = gap_sides(frame, config.baselines.opening_gap_threshold)
         strength = frame["gap_abnormal"].abs().fillna(0.0)
@@ -283,6 +304,7 @@ GROUPINGS = {
     "guidance_direction": "guidance_direction",
     "tone_tercile": "tone_tercile",
     "beat_miss": "beat_miss",
+    "eps_surprise": "eps_surprise_bucket",
     "opening_gap": "gap_bucket",
 }
 
@@ -301,6 +323,12 @@ def _gap_bucket(gap: float | None, threshold: float) -> str | None:
     return "gap up" if gap > threshold else "gap down" if gap < -threshold else "flat"
 
 
+def _surprise_bucket(surprise: float | None, threshold: float) -> str | None:
+    if surprise is None or pd.isna(surprise):
+        return None
+    return "beat" if surprise > threshold else "miss" if surprise < -threshold else "inline"
+
+
 def add_buckets(frame: pd.DataFrame, config: BacktestConfig) -> pd.DataFrame:
     """Bucket columns for the event study. Tone tercile cut points come from in-sample only."""
     out = frame.copy()
@@ -316,4 +344,8 @@ def add_buckets(frame: pd.DataFrame, config: BacktestConfig) -> pd.DataFrame:
     ]
     thr = config.baselines.opening_gap_threshold
     out["gap_bucket"] = [_gap_bucket(g, thr) for g in out["gap_abnormal"].tolist()]
+    eps_thr = config.baselines.eps_surprise_threshold
+    out["eps_surprise_bucket"] = [
+        _surprise_bucket(s, eps_thr) for s in out["eps_surprise_pct"].tolist()
+    ]
     return out

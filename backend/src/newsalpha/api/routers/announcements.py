@@ -14,12 +14,13 @@ from newsalpha.api.schemas import (
     AnnouncementOut,
     AnnouncementPage,
     CompanyOut,
+    EpsOut,
     EventOut,
     SignalOut,
     SignalSummary,
 )
 from newsalpha.core.time_rules import EASTERN
-from newsalpha.db.models import Announcement, Company, Event, Signal
+from newsalpha.db.models import Announcement, Company, EpsSurprise, Event, Signal
 from newsalpha.db.session import get_session
 
 router = APIRouter(tags=["announcements"])
@@ -42,7 +43,9 @@ def _summary(signal: Signal | None) -> SignalSummary | None:
     )
 
 
-def _out(ann: Announcement, company: Company, signal: Signal | None) -> AnnouncementOut:
+def _out(
+    ann: Announcement, company: Company, signal: Signal | None, eps: EpsSurprise | None = None
+) -> AnnouncementOut:
     return AnnouncementOut(
         id=ann.id,
         ticker=company.ticker,
@@ -54,13 +57,14 @@ def _out(ann: Announcement, company: Company, signal: Signal | None) -> Announce
         item_codes=list(ann.item_codes),
         url=ann.url,
         signal=_summary(signal),
+        eps=EpsOut.model_validate(eps, from_attributes=True) if eps is not None else None,
     )
 
 
-def _with_signal(source: SignalSource) -> Select[Announcement, Company, Signal]:
-    """Announcements joined to their company and (if any) the default model's signal."""
+def _with_signal(source: SignalSource) -> Select[Announcement, Company, Signal, EpsSurprise]:
+    """Announcements joined to their company, the default model's signal and EPS surprise."""
     return (
-        select(Announcement, Company, Signal)
+        select(Announcement, Company, Signal, EpsSurprise)
         .join(Company, Company.id == Announcement.company_id)
         .outerjoin(
             Signal,
@@ -68,6 +72,7 @@ def _with_signal(source: SignalSource) -> Select[Announcement, Company, Signal]:
             & (Signal.model == source.model)
             & (Signal.prompt_version == source.prompt_version),
         )
+        .outerjoin(EpsSurprise, EpsSurprise.announcement_id == Announcement.id)
     )
 
 
@@ -118,7 +123,7 @@ def list_announcements(
         .limit(page_size)
     ).all()
     return AnnouncementPage(
-        items=[_out(a, c, s) for a, c, s in rows], total=total, page=page, page_size=page_size
+        items=[_out(a, c, s, e) for a, c, s, e in rows], total=total, page=page, page_size=page_size
     )
 
 
@@ -133,7 +138,7 @@ def get_announcement(
     row = session.execute(_with_signal(source).where(Announcement.id == announcement_id)).first()
     if row is None:
         raise HTTPException(status_code=404, detail="announcement not found")
-    ann, company, default_signal = row
+    ann, company, default_signal, eps = row
     path = base_dir / ann.raw_text_uri
     text_available = path.exists()
     signals = session.scalars(
@@ -141,7 +146,7 @@ def get_announcement(
     ).all()
     event = session.scalar(select(Event).where(Event.announcement_id == ann.id))
     return AnnouncementDetail(
-        **_out(ann, company, default_signal).model_dump(),
+        **_out(ann, company, default_signal, eps).model_dump(),
         text=path.read_text(encoding="utf-8") if text_available else "",
         text_available=text_available,
         signals=[SignalOut.model_validate(s, from_attributes=True) for s in signals],
@@ -162,4 +167,4 @@ def latest_signals(
         .order_by(Announcement.accepted_at.desc(), Announcement.id.desc())
         .limit(limit)
     ).all()
-    return [_out(a, c, s) for a, c, s in rows]
+    return [_out(a, c, s, e) for a, c, s, e in rows]

@@ -45,6 +45,14 @@ class SignalSummary(BaseModel):
     summary: str
 
 
+class EpsOut(BaseModel):
+    """Analyst EPS consensus vs reported EPS for the quarter this release reports (Yahoo)."""
+
+    eps_estimate: float | None
+    eps_reported: float | None
+    surprise_pct: float | None
+
+
 class AnnouncementOut(BaseModel):
     id: int
     ticker: str
@@ -56,6 +64,7 @@ class AnnouncementOut(BaseModel):
     item_codes: list[str]
     url: str
     signal: SignalSummary | None
+    eps: EpsOut | None = None
 
 
 class AnnouncementPage(BaseModel):

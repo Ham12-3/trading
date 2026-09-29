@@ -12,7 +12,8 @@ const PERIODS: { value: PeriodName; label: string }[] = [
 const GROUP_NOTES: Record<string, string> = {
   guidance_direction: "LLM label: did the release raise, maintain or lower its outlook?",
   tone_tercile: "LLM management tone, split into terciles (cut points from in-sample events only).",
-  beat_miss: "Only when the release itself compares results with expectations or guidance.",
+  beat_miss: "LLM label, only when the release itself compares results with expectations.",
+  eps_surprise: "Non-LLM: reported EPS vs analyst consensus (Yahoo); within ±2% is inline.",
   opening_gap: "Non-LLM: the stock's t0 opening gap vs SPY's (±1%). Known at entry.",
 };
 
@@ -27,6 +28,7 @@ const BUCKET_ORDER = [
   "mid",
   "high",
   "miss",
+  "inline",
   "neither",
   "beat",
   "gap down",

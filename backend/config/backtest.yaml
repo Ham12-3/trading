@@ -20,6 +20,13 @@ composite:
 
 baselines:
   opening_gap_threshold: 0.01     # |stock gap - SPY gap| at the t0 open must exceed this (1%)
+  # Numeric EPS surprise vs analyst consensus (Yahoo): beat if > +2%, miss if < -2%, else inline.
+  eps_surprise_threshold: 0.02
+
+combined:
+  # llm_plus_eps_surprise: LLM composite score + eps_surprise_weight * (+1 beat / -1 miss / 0).
+  # Fixed, not tuned, so the comparison with the LLM-only strategy stays clean.
+  eps_surprise_weight: 1.0
 
 portfolio:
   hold_days: 3                    # enter at t0 open, exit at the close of trading day t0+3

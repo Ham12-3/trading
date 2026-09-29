@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { ReactNode } from "react";
-import { ApiError, Card, GuidanceBadge, PageHeader, ToneBadge } from "@/components/ui";
+import { ApiError, Card, EpsSurprise, GuidanceBadge, PageHeader, ToneBadge } from "@/components/ui";
 import { apiBaseUrl, apiGet, type AnnouncementDetail } from "@/lib/api";
 import { etDateTime, pct, usd } from "@/lib/format";
 
@@ -132,6 +132,24 @@ export default async function AnnouncementPage({ params }: { params: Promise<{ i
               </form>
             </Card>
           )}
+
+          {a.eps ? (
+            <Card title="EPS vs analyst consensus (not from the LLM)">
+              <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm tabular-nums">
+                <dt className="text-muted">Reported EPS</dt>
+                <dd>{a.eps.eps_reported === null ? "–" : `$${a.eps.eps_reported.toFixed(2)}`}</dd>
+                <dt className="text-muted">Consensus estimate</dt>
+                <dd>{a.eps.eps_estimate === null ? "–" : `$${a.eps.eps_estimate.toFixed(2)}`}</dd>
+                <dt className="text-muted">Surprise</dt>
+                <dd>
+                  <EpsSurprise eps={a.eps} />
+                </dd>
+              </dl>
+              <p className="text-muted mt-2 text-xs">
+                Source: Yahoo Finance consensus around the report date. Within ±2% counts as inline.
+              </p>
+            </Card>
+          ) : null}
 
           {a.event ? (
             <Card title="Event">

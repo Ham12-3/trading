@@ -141,7 +141,7 @@ def test_events_and_backtest_end_to_end(seeded: Session) -> None:
     config.periods.out_of_sample.end = date(2024, 3, 28)
     group, runs = run_backtest(seeded, config, cal, benchmark=BENCH)
 
-    assert len(runs) == 6 and {r.run_group for r in runs} == {group}
+    assert len(runs) == 10 and {r.run_group for r in runs} == {group}  # 5 strategies x 2 periods
     fitted = runs[0].config["fitted"]
     assert fitted["tone_center"] == pytest.approx(0.5)  # median of in-sample tones 0.9 / 0.1
     assert fitted["tuned_on"] == "in_sample" and len(runs[0].config["tuning_grid"]) == 16
@@ -152,3 +152,4 @@ def test_events_and_backtest_end_to_end(seeded: Session) -> None:
     n_days = len(cal.trading_days(date(2024, 2, 12), date(2024, 3, 28)))
     assert len(llm_oos.equity_curve) == n_days
     assert by[("baseline_beat_miss", "in_sample")].metrics["n_trades"] == 0  # no beat/miss
+    assert by[("baseline_eps_surprise", "in_sample")].metrics["n_trades"] == 0  # no EPS data

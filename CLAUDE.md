@@ -63,8 +63,11 @@ Tests must cover pre-market, intraday, after-close, weekend and holiday cases, p
 - Tuning (tone center, tone weight, thresholds) uses in-sample events only; out-of-sample is run
   once with the fitted parameters. Tone-tercile cut points in the event study also come from
   in-sample only.
-- Baselines: `baseline_opening_gap` (main: follow the abnormal opening gap) and
-  `baseline_beat_miss` (the PRD's naive rule; sparse because releases rarely state beat/miss).
+- Baselines: `baseline_eps_surprise` (PRD's naive rule on numeric EPS vs Yahoo consensus, ±2%),
+  `baseline_opening_gap` (follow the abnormal opening gap) and `baseline_beat_miss` (beat/miss as
+  stated in the release text; sparse). `llm_plus_eps_surprise` adds the numeric surprise to the
+  LLM score with a fixed, untuned weight. EPS consensus is a non-LLM input kept in
+  `eps_surprises`; the LLM prompt stays text-only.
 
 ## Layout
 
@@ -101,6 +104,7 @@ uv run uvicorn newsalpha.api.app:app --reload
 uv run newsalpha --help
 uv run newsalpha ingest prices --since 2023-12-01          # yfinance, universe + SPY
 uv run newsalpha ingest announcements --since 2024-01-01   # EDGAR; needs SEC_USER_AGENT_* in .env
+uv run newsalpha ingest eps                                # Yahoo EPS consensus, linked to releases
 uv run newsalpha extract --limit 20                       # LLM signals; needs OPENAI_API_KEY
 uv run newsalpha eval label --n 10                         # hand-label gold set (eval/README.md)
 uv run newsalpha eval run --model gpt-6-luna               # score a model on the gold set

@@ -102,6 +102,34 @@ def ingest_announcements_cmd(since: SinceOption) -> None:
         raise typer.Exit(1)
 
 
+@ingest_app.command("eps")
+def ingest_eps_cmd() -> None:
+    """Fetch analyst EPS consensus vs reported EPS (Yahoo) and link quarters to releases."""
+    from sqlalchemy import select
+
+    from newsalpha.db.models import Company
+    from newsalpha.ingest.eps import ingest_eps
+    from newsalpha.sources.yahoo_estimates import YahooEstimatesSource
+
+    universe = load_universe(get_settings().universe_path)
+    lookup = {m.ticker: m.lookup_ticker for m in universe.companies}
+    with Session(get_engine()) as session:
+        companies = [
+            (c, lookup.get(c.ticker, c.ticker))
+            for c in session.scalars(select(Company).order_by(Company.ticker))
+            if c.ticker in lookup
+        ]
+        report = ingest_eps(session, YahooEstimatesSource(), companies)
+    typer.echo(
+        f"companies ok: {report.companies_ok}/{len(companies)}  quarters stored: "
+        f"{report.quarters_stored}  linked to releases: {report.linked}  "
+        f"failures: {len(report.failures)}"
+    )
+    if report.failures:
+        _print_failures(report.failures)
+        raise typer.Exit(1)
+
+
 @ingest_app.command("prices")
 def ingest_prices_cmd(
     since: SinceOption,

@@ -138,6 +138,28 @@ class BacktestRun(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
+class EpsSurprise(Base):
+    """Analyst EPS consensus vs reported EPS for one company-quarter (non-LLM input).
+
+    ``announcement_id`` links the quarter to its earnings release when the report dates match
+    (within a day); it stays NULL for quarters outside the study or releases that are not
+    earnings reports.
+    """
+
+    __tablename__ = "eps_surprises"
+    __table_args__ = (UniqueConstraint("company_id", "earnings_at"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    company_id: Mapped[int] = mapped_column(ForeignKey("companies.id"), index=True)
+    earnings_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    eps_estimate: Mapped[float | None] = mapped_column(Double)
+    eps_reported: Mapped[float | None] = mapped_column(Double)
+    surprise_pct: Mapped[float | None] = mapped_column(Double)  # (reported-estimate)/|estimate|
+    announcement_id: Mapped[int | None] = mapped_column(ForeignKey("announcements.id"), unique=True)
+    source: Mapped[str] = mapped_column(String(32))
+    fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
 class PriceDaily(Base):
     """Daily bar keyed by symbol so stocks and benchmarks (SPY) share one table."""
 
