@@ -5,6 +5,7 @@
 defaults:
   bulk: gpt-6-luna          # cheapest current-generation model; used for the full run
   comparison: gpt-5.6-luna  # cheap second model for the Phase 3 accuracy comparison
+  prompt_version: v1        # prompt whose signals the API and dashboard show by default
 
 extraction:
   max_input_tokens: 32000   # document budget (approx. 4 chars/token); longer texts are truncated and logged
