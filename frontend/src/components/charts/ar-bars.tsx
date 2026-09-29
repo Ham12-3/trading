@@ -33,7 +33,8 @@ const WINDOWS = [
   { key: "w5", n: "n5", t: "t5", name: "[t0, t0+5]", color: "var(--series-3)" },
 ] as const;
 
-const pctTick = (v: number) => `${(v * 100).toFixed(1)}%`;
+// Up to two decimals, trailing zeros trimmed: ticks at -0.15% must not round to a duplicate label.
+const pctTick = (v: number) => `${Number((v * 100).toFixed(2))}%`;
 
 /** Round the data end (top for positive, bottom for negative); square at the baseline. */
 function DataEndBar(props: BarShapeProps) {

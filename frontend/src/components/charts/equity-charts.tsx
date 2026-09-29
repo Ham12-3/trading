@@ -22,7 +22,7 @@ const tickStyle = { fill: "var(--ink-muted)", fontSize: 12 };
 export type CurveFormat = "equity" | "drawdown";
 const FORMATS: Record<CurveFormat, (v: number) => string> = {
   equity: (v) => v.toFixed(3),
-  drawdown: (v) => `${(v * 100).toFixed(1)}%`,
+  drawdown: (v) => `${Number((v * 100).toFixed(2))}%`,
 };
 
 function CurveTooltip({
