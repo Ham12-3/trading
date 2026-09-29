@@ -1,0 +1,139 @@
+# NewsAlpha — CLAUDE.md
+
+LLM signal lab: read company announcements (SEC 8-K Item 2.02 / Ex-99.1), extract structured
+signals with an LLM, and test whether they predict returns. **Research only — no live trading,
+no broker integration, no investment-advice features.**
+
+The full spec is the PRD (owner: Abdulhamid Sonaike). This file holds the rules that must never drift.
+
+## Working agreement
+
+- Work **one phase at a time** (phases 0–7, PRD §17). Before coding a phase, write a short plan
+  listing files to create/change. At the end of a phase: run tests + linters, summarise, **stop for review**.
+- Commit after each working step with a clear message.
+- **Never invent or fake data.** If a source fails, surface the error clearly. No placeholder numbers in the dashboard.
+- If a requirement is unclear or conflicts with another, **ask** instead of guessing.
+- Prefer small, readable modules with type hints and docstrings over clever code.
+- Never hardcode secrets. Config comes from `.env` (see `.env.example`). `.env` is gitignored.
+
+## Point-in-time rules (non-negotiable, each must have tests)
+
+1. Every signal is tied to the announcement's EDGAR **acceptance timestamp**.
+2. Event day t0 (US/Eastern, exchange calendar):
+   - accepted **before 09:30 ET on a trading day** → t0 = that day, entry at that day's **open**;
+   - accepted during market hours, after the close, or on a non-trading day → t0 = **next** trading day, entry at its **open**.
+3. Never use price, fundamental or text data timestamped after the entry time when computing a signal.
+4. Use a real exchange calendar (`pandas_market_calendars`, XNYS) for holidays and early closes.
+5. The universe must not be selected with future information (survivorship bias is a documented v1 limitation).
+
+Tests must cover pre-market, intraday, after-close, weekend and holiday cases, plus a
+"lookahead trap" test that injects a future price and asserts it is not used.
+
+## LLM rules
+
+- LLM only reads and labels text. **Deterministic maths stays in Python** (returns, ratios, weights).
+- Provider behind `extraction/providers.py`; OpenAI Responses API with strict JSON-schema output is the
+  implemented provider (owner's choice, replacing the PRD's Anthropic default). Validate with Pydantic
+  (`AnnouncementSignals`, PRD §8.1).
+  On validation failure: retry once with the error in the prompt, then mark row `failed` and move on.
+- Prompts are versioned files in `backend/prompts/` (`extract_v1.md`, …). Store `model` + `prompt_version` on every signal row.
+- Cache key: `(document_hash, model, prompt_version)` — never pay for the same extraction twice.
+- Record input/output tokens, cost (price table in config), latency for every call.
+- Concurrency limit + exponential backoff on rate limits. Log truncation of long documents.
+- Models, prices and extraction settings live in `backend/config/models.yaml`: `gpt-6-luna` (bulk),
+  `gpt-5.6-luna` (comparison). The prompt forbids using outside knowledge (consensus, later events),
+  so beat/miss is `unknown` unless the release itself compares with expectations or guidance.
+- A prompt file must never change in place: bump the version (`extract_v2.md`); the runner refuses otherwise.
+- **No live LLM calls in the default test suite** — use recorded fixtures.
+
+## Data sources
+
+- SEC EDGAR: official endpoints, `User-Agent` = name + email from config, ≤10 req/s (default 5).
+- Prices: daily OHLCV adjusted, `yfinance` behind a `PriceSource` interface. Benchmark SPY.
+- Sources sit behind `AnnouncementSource` / `PriceSource` interfaces (UK source is a later phase; check licensing first).
+
+## Backtest honesty
+
+- Abnormal return = stock return − benchmark return; windows [t0,t0+1], [t0,t0+3], [t0,t0+5] from entry price.
+- Costs default 10 bps/side. Always report a non-LLM baseline. In-sample vs held-out out-of-sample, both reported.
+- Show results even when weak/negative. List limitations on the results page.
+- Windows run from the t0 adjusted open to the close of t0+k; window returns are outcomes and never
+  feed a signal. The opening-gap baseline reads the t0 open and previous close via
+  `PointInTimePrices` as of the entry time.
+- Tuning (tone center, tone weight, thresholds) uses in-sample events only; out-of-sample is run
+  once with the fitted parameters. Tone-tercile cut points in the event study also come from
+  in-sample only.
+- Baselines: `baseline_opening_gap` (main: follow the abnormal opening gap) and
+  `baseline_beat_miss` (the PRD's naive rule; sparse because releases rarely state beat/miss).
+
+## Layout
+
+```
+backend/            Python 3.12, uv
+  src/newsalpha/
+    core/           config, calendar, time rules, pure maths   (mypy --strict)
+    sources/        AnnouncementSource, PriceSource, EDGAR, yfinance
+    extraction/     LLM client, schema, prompt loader, cache, cost tracking
+    backtest/       event study, portfolio, metrics
+    eval/           labelling, scoring
+    db/             SQLAlchemy models, session, Alembic migrations (db/migrations)
+    api/            FastAPI app + routers
+    cli.py          Typer entrypoint (`newsalpha ...`)
+  prompts/  config/  tests/
+frontend/           Next.js App Router, TypeScript, Tailwind, Recharts
+eval/gold/          hand-labelled gold set (*.jsonl)
+docker-compose.yml  postgres, api, web
+```
+
+All DB schema changes go through Alembic.
+
+## Commands
+
+Backend (run from `backend/`):
+
+```bash
+uv sync                                   # install deps
+uv run ruff check . && uv run ruff format --check .
+uv run mypy                               # strict on core/, checked elsewhere
+uv run pytest                             # default suite: no network, no LLM calls
+uv run alembic upgrade head               # apply migrations (needs DATABASE_URL)
+uv run uvicorn newsalpha.api.app:app --reload
+uv run newsalpha --help
+uv run newsalpha ingest prices --since 2023-12-01          # yfinance, universe + SPY
+uv run newsalpha ingest announcements --since 2024-01-01   # EDGAR; needs SEC_USER_AGENT_* in .env
+uv run newsalpha extract --limit 20                       # LLM signals; needs OPENAI_API_KEY
+uv run newsalpha eval label --n 10                         # hand-label gold set (eval/README.md)
+uv run newsalpha eval run --model gpt-6-luna               # score a model on the gold set
+uv run newsalpha eval regress                              # CI accuracy regression gate
+uv run newsalpha events build                              # t0, entry, gap, abnormal returns
+uv run newsalpha events summary --period out_of_sample     # event-study table
+uv run newsalpha backtest run                              # config/backtest.yaml; stores backtest_runs
+```
+
+Ingestion facts worth remembering:
+- Universe: `backend/config/universe.yaml`, S&P 100 frozen as of 2023-09-18 (Wikipedia oldid 1190636511).
+- `accepted_at` comes from the full submission's `<ACCEPTANCE-DATETIME>` header (US/Eastern), stored UTC.
+- Announcement text is the EX-99.1 (else first EX-99.x) exhibit, stored at `backend/data/raw/...`;
+  `raw_text_uri` is relative to `DATA_DIR`. Filings without an EX-99 exhibit are skipped and counted.
+- `prices_daily` is keyed by (symbol, date); raw OHLC + `adj_close`; `adj_open = open * adj_close/close`.
+- Postgres-backed tests are marked `db` and skip when the database is unreachable. They run against
+  `<db>_test` (created on demand); conftest refuses any database not ending in `_test`.
+- Gold labels are keyed by (source, accession number), never DB ids. Categorical accuracy counts a
+  failed extraction as wrong. The labeller never sees model output.
+
+Frontend (run from `frontend/`):
+
+```bash
+pnpm install
+pnpm dev          # http://localhost:3000
+pnpm lint && pnpm typecheck && pnpm format:check
+pnpm build
+```
+
+Everything:
+
+```bash
+docker compose up --build    # postgres :5432, api :8000 (/docs), web :3000
+```
+
+A phase is done only when `pytest`, `ruff`, `mypy` (and frontend lint/typecheck/build) are clean.

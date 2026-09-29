@@ -1,0 +1,11 @@
+{
+  "guidance_direction": "raised",
+  "revenue_vs_expectation": "beat",
+  "eps_vs_expectation": "unknown",
+  "management_tone": 0.6,
+  "forward_looking_confidence": 0.7,
+  "risk_flags": ["fx_headwind"],
+  "key_quotes": ["The company raised its full-year outlook."],
+  "summary": "Example Co reported revenue of $1.2 billion, up 8% year over year, above the top of its guidance range, and raised its full-year outlook.",
+  "extraction_confidence": 0.8
+}

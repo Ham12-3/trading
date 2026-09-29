@@ -1,0 +1,28 @@
+{
+ "fields": [
+  "cik",
+  "name",
+  "ticker",
+  "exchange"
+ ],
+ "data": [
+  [
+   999999,
+   "EXAMPLE CO",
+   "EXCO",
+   "NYSE"
+  ],
+  [
+   888888,
+   "BERKSHIRE-LIKE",
+   "BRK-B",
+   "NYSE"
+  ],
+  [
+   999999,
+   "EXAMPLE CO",
+   "EXCO-PB",
+   null
+  ]
+ ]
+}

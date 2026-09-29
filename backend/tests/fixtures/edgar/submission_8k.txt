@@ -1,0 +1,48 @@
+<SEC-DOCUMENT>0000999999-24-000001.txt : 20240123
+<SEC-HEADER>0000999999-24-000001.hdr.sgml : 20240123
+<ACCEPTANCE-DATETIME>20240123160512
+ACCESSION NUMBER:		0000999999-24-000001
+CONFORMED SUBMISSION TYPE:	8-K
+PUBLIC DOCUMENT COUNT:		3
+CONFORMED PERIOD OF REPORT:	20240123
+ITEM INFORMATION:		Results of Operations and Financial Condition
+ITEM INFORMATION:		Financial Statements and Exhibits
+FILED AS OF DATE:		20240123
+</SEC-HEADER>
+<DOCUMENT>
+<TYPE>8-K
+<SEQUENCE>1
+<FILENAME>exco-20240123.htm
+<DESCRIPTION>8-K
+<TEXT>
+<html><body><p>Item 2.02 Results of Operations and Financial Condition.</p></body></html>
+</TEXT>
+</DOCUMENT>
+<DOCUMENT>
+<TYPE>EX-99.1
+<SEQUENCE>2
+<FILENAME>exco-ex991.htm
+<DESCRIPTION>PRESS RELEASE
+<TEXT>
+<html>
+<head><style>p { color: red; }</style></head>
+<body>
+<p><b>Example Co. Reports Fourth Quarter Results</b></p>
+<p>Revenue&#160;of $1.2&nbsp;billion, up 8% year over year.</p>
+<table><tr><td>EPS</td><td>$0.42</td></tr></table>
+<p>The company raised its full-year outlook.</p>
+</body>
+</html>
+</TEXT>
+</DOCUMENT>
+<DOCUMENT>
+<TYPE>GRAPHIC
+<SEQUENCE>3
+<FILENAME>logo.jpg
+<TEXT>
+begin 644 logo.jpg
+M_]C_X``02D9)1@`!`0$`8`!@``#_VP!#``@&!@<&!0@'!P<)"0@*#!0-#`L+
+end
+</TEXT>
+</DOCUMENT>
+</SEC-DOCUMENT>

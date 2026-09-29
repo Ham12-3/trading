@@ -1,0 +1,80 @@
+[project]
+name = "newsalpha"
+version = "0.1.0"
+description = "LLM signal lab for market announcements (research only, no live trading)."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "alembic>=1.13",
+    "beautifulsoup4>=4.15.0",
+    "fastapi>=0.115",
+    "httpx>=0.28.1",
+    "lxml>=6.1.3",
+    "numpy>=2.5.3",
+    "openai>=3.19.2",
+    "pandas>=3.0.6",
+    "pandas-market-calendars>=5.4.0",
+    "psycopg[binary]>=3.2",
+    "pydantic>=2.8",
+    "pydantic-settings>=2.4",
+    "pyyaml>=6.0.3",
+    "sqlalchemy>=2.0.30",
+    "typer>=0.12",
+    "tzdata>=2026.4",
+    "uvicorn[standard]>=0.30",
+    "yfinance>=1.7.0",
+]
+
+[project.scripts]
+newsalpha = "newsalpha.cli:app"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.27",
+    "mypy>=1.11",
+    "pandas-stubs>=3.0.5.260914",
+    "pytest>=8.3",
+    "ruff>=0.6",
+    "types-beautifulsoup4>=4.12.0.20250516",
+    "types-pyyaml>=6.0.12.20260906",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/newsalpha"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "RUF", "DTZ"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["src", "tests"]
+plugins = ["pydantic.mypy"]
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["pandas_market_calendars", "yfinance"]
+ignore_missing_imports = true
+
+# PRD §5: strict on core/
+[[tool.mypy.overrides]]
+module = ["newsalpha.core", "newsalpha.core.*"]
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers -m \"not live\""
+markers = [
+    "db: requires a running Postgres (DATABASE_URL); skipped when unreachable",
+    "live: calls external services (network / LLM); never run by default",
+]
