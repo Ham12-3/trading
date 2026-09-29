@@ -62,6 +62,13 @@ class TradingCalendar:
             nxt += timedelta(days=1)
         return nxt
 
+    def previous_trading_day(self, d: date) -> date:
+        """Last trading day strictly before ``d``."""
+        prev = d - timedelta(days=1)
+        while not self.is_trading_day(prev):
+            prev -= timedelta(days=1)
+        return prev
+
     def add_trading_days(self, d: date, n: int) -> date:
         """Trading day ``n`` sessions after trading day ``d`` (``n`` >= 0)."""
         if n < 0:

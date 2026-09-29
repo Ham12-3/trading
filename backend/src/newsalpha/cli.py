@@ -441,5 +441,92 @@ def eval_regress(
     typer.echo("no regression")
 
 
+# ----------------------------------------------------------------------------- events/backtest
+
+events_app = typer.Typer(help="Event construction and event study.", no_args_is_help=True)
+app.add_typer(events_app, name="events")
+backtest_app = typer.Typer(help="Portfolio backtests.", no_args_is_help=True)
+app.add_typer(backtest_app, name="backtest")
+BacktestConfigOption = Annotated[Path, typer.Option("--config", help="Backtest YAML.")]
+
+
+@events_app.command("build")
+def events_build() -> None:
+    """(Re)build the events table: t0, entry prices, opening gap, abnormal returns."""
+    from newsalpha.backtest.events import build_events
+    from newsalpha.core.calendar import get_calendar
+
+    with Session(get_engine()) as session:
+        report = build_events(session, get_calendar())
+    typer.echo(
+        f"events built: {report.built}  without t0 prices: {report.no_prices}  "
+        f"with an incomplete return window (end of data): {report.incomplete_windows}"
+    )
+
+
+@events_app.command("summary")
+def events_summary(
+    config_path: BacktestConfigOption = Path("config/backtest.yaml"),
+    period: Annotated[
+        str, typer.Option("--period", help="all | in_sample | out_of_sample")
+    ] = "all",
+) -> None:
+    """Event study: mean abnormal return, t-stat and n per signal bucket and window."""
+    from newsalpha.backtest.config import load_backtest_config
+    from newsalpha.backtest.event_study import event_study
+    from newsalpha.backtest.runner import GROUPINGS, add_buckets, in_period, load_event_frame
+
+    config = load_backtest_config(config_path)
+    with Session(get_engine()) as session:
+        frame = load_event_frame(session, config.signals.model, config.signals.prompt_version)
+    frame = add_buckets(frame, config)
+    if period != "all":
+        frame = in_period(frame, getattr(config.periods, period))
+    typer.echo(f"{len(frame)} events ({period}); abnormal return vs SPY from the t0 open")
+    typer.echo(f"{'grouping':<20}{'bucket':<22}{'win':>4}{'n':>6}{'mean AR':>10}{'t':>7}")
+    for s in event_study(frame, GROUPINGS):
+        mean = f"{s.mean_ar:+.2%}" if s.mean_ar is not None else "-"
+        t = f"{s.t_stat:+.2f}" if s.t_stat is not None else "-"
+        typer.echo(f"{s.grouping:<20}{s.bucket:<22}{s.window:>4}{s.n:>6}{mean:>10}{t:>7}")
+
+
+@backtest_app.command("run")
+def backtest_run(
+    config_path: BacktestConfigOption = Path("config/backtest.yaml"),
+    no_tune: Annotated[
+        bool, typer.Option("--no-tune", help="Use config thresholds as-is.")
+    ] = False,
+) -> None:
+    """Run the LLM strategy and both baselines on in-sample and out-of-sample periods."""
+    from newsalpha.backtest.config import load_backtest_config
+    from newsalpha.backtest.runner import run_backtest
+    from newsalpha.core.calendar import get_calendar
+
+    config = load_backtest_config(config_path)
+    with Session(get_engine()) as session:
+        try:
+            group, runs = run_backtest(session, config, get_calendar(), do_tune=not no_tune)
+        except ValueError as exc:
+            typer.secho(str(exc), fg=typer.colors.RED, err=True)
+            raise typer.Exit(2) from exc
+        fitted = runs[0].config["fitted"]
+        typer.echo(f"run group {group}")
+        typer.echo(
+            f"fitted on in-sample: tone_center {fitted['tone_center']:.2f}, tone weight "
+            f"{fitted['weights']['tone']}, thresholds +/-{fitted['long_threshold']}"
+        )
+        header = f"{'strategy':<22}{'period':<15}{'ann ret':>9}{'vol':>8}{'sharpe':>8}"
+        typer.echo(header + f"{'maxDD':>8}{'hit':>7}{'trades':>8}{'skipped':>9}")
+        for run in runs:
+            m = run.metrics
+            sharpe = f"{m['sharpe']:.2f}" if m["sharpe"] is not None else "-"
+            hit = f"{m['hit_rate']:.0%}" if m["hit_rate"] is not None else "-"
+            typer.echo(
+                f"{run.strategy:<22}{run.period:<15}{m['annualised_return']:>9.1%}"
+                f"{m['annualised_volatility']:>8.1%}{sharpe:>8}{m['max_drawdown']:>8.1%}"
+                f"{hit:>7}{m['n_trades']:>8}{m['skipped_capacity']:>9}"
+            )
+
+
 if __name__ == "__main__":
     app()

@@ -57,6 +57,14 @@ Tests must cover pre-market, intraday, after-close, weekend and holiday cases, p
 - Abnormal return = stock return − benchmark return; windows [t0,t0+1], [t0,t0+3], [t0,t0+5] from entry price.
 - Costs default 10 bps/side. Always report a non-LLM baseline. In-sample vs held-out out-of-sample, both reported.
 - Show results even when weak/negative. List limitations on the results page.
+- Windows run from the t0 adjusted open to the close of t0+k; window returns are outcomes and never
+  feed a signal. The opening-gap baseline reads the t0 open and previous close via
+  `PointInTimePrices` as of the entry time.
+- Tuning (tone center, tone weight, thresholds) uses in-sample events only; out-of-sample is run
+  once with the fitted parameters. Tone-tercile cut points in the event study also come from
+  in-sample only.
+- Baselines: `baseline_opening_gap` (main: follow the abnormal opening gap) and
+  `baseline_beat_miss` (the PRD's naive rule; sparse because releases rarely state beat/miss).
 
 ## Layout
 
@@ -97,6 +105,9 @@ uv run newsalpha extract --limit 20                       # LLM signals; needs O
 uv run newsalpha eval label --n 10                         # hand-label gold set (eval/README.md)
 uv run newsalpha eval run --model gpt-6-luna               # score a model on the gold set
 uv run newsalpha eval regress                              # CI accuracy regression gate
+uv run newsalpha events build                              # t0, entry, gap, abnormal returns
+uv run newsalpha events summary --period out_of_sample     # event-study table
+uv run newsalpha backtest run                              # config/backtest.yaml; stores backtest_runs
 ```
 
 Ingestion facts worth remembering:

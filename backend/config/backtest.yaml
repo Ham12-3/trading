@@ -1,0 +1,33 @@
+# Backtest configuration (PRD section 10). Every number here is reported alongside results.
+
+signals:
+  model: gpt-6-luna
+  prompt_version: v1
+
+periods:
+  # Weights/thresholds are tuned on in_sample only; out_of_sample is held out and reported as-is.
+  in_sample: {start: "2024-01-01", end: "2025-06-30"}
+  out_of_sample: {start: "2025-07-01", end: "2026-09-25"}
+
+composite:
+  # score = w_guidance * guidance + w_tone * (tone - tone_center) + w_revenue * rev + w_eps * eps
+  # guidance: raised +1, lowered -1, withdrawn -1, maintained 0, not_mentioned 0
+  # revenue/eps: beat +1, miss -1, inline/unknown 0
+  weights: {guidance: 1.0, tone: 1.0, revenue: 0.5, eps: 0.5}
+  tone_center: in_sample_median   # or a number; "in_sample_median" is fitted on in-sample events
+  long_threshold: 0.5             # long if score > long_threshold
+  short_threshold: -0.5           # short if score < short_threshold
+
+baselines:
+  opening_gap_threshold: 0.01     # |stock gap - SPY gap| at the t0 open must exceed this (1%)
+
+portfolio:
+  hold_days: 3                    # enter at t0 open, exit at the close of trading day t0+3
+  max_positions: 50               # each position is 1/max_positions of capital; extra signals skipped
+  hedge_with_benchmark: true      # each position is paired with an opposite SPY position
+  cost_bps_per_side: 10           # charged on entry and exit of every leg
+
+tuning:
+  # Small grid, in-sample only, objective = in-sample Sharpe of the LLM strategy.
+  thresholds: [0.25, 0.5, 0.75, 1.0]
+  tone_weights: [0.0, 0.5, 1.0, 2.0]
