@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import select, true
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
@@ -67,9 +67,16 @@ def check_prompt_unchanged(session: Session, model: str, prompt: Prompt) -> None
 
 
 def select_pending(
-    session: Session, model: str, version: str, limit: int | None, retry_failed: bool
+    session: Session,
+    model: str,
+    version: str,
+    limit: int | None,
+    retry_failed: bool,
+    announcement_ids: list[int] | None = None,
 ) -> list[_Pending]:
-    """Announcements without an ok signal for (model, version), oldest first."""
+    """Announcements without an ok signal for (model, version), oldest first.
+
+    ``announcement_ids`` restricts the candidates (used by evaluation on the gold set)."""
     done_status = ["ok"] if retry_failed else ["ok", "failed"]
     done = (
         select(Signal.announcement_id)
@@ -84,6 +91,7 @@ def select_pending(
         select(Announcement.id, Announcement.text_hash, Announcement.raw_text_uri, Company.name)
         .join(Company, Company.id == Announcement.company_id)
         .where(Announcement.id.not_in(done))
+        .where(Announcement.id.in_(announcement_ids) if announcement_ids is not None else true())
         .order_by(Announcement.accepted_at, Announcement.id)
         .limit(limit)
     )
@@ -162,12 +170,13 @@ def run_extraction(
     data_dir: Path,
     limit: int | None = None,
     retry_failed: bool = False,
+    announcement_ids: list[int] | None = None,
     sleep: Callable[[float], None] = time.sleep,
 ) -> RunReport:
     """Extract signals for pending announcements. Each document is paid for at most once per
     (text hash, model, prompt version)."""
     check_prompt_unchanged(session, model, prompt)
-    pending = select_pending(session, model, prompt.version, limit, retry_failed)
+    pending = select_pending(session, model, prompt.version, limit, retry_failed, announcement_ids)
     report = RunReport()
     if not pending:
         return report
@@ -216,12 +225,3 @@ def run_extraction(
             else:
                 log.info("announcement %d ok", group[0].announcement_id)
     return report
-
-
-def percentile(values: list[int], q: float) -> float:
-    """Nearest-rank percentile; 0.0 for an empty list."""
-    if not values:
-        return 0.0
-    ordered = sorted(values)
-    rank = max(1, round(q / 100 * len(ordered)))
-    return float(ordered[min(rank, len(ordered)) - 1])

@@ -94,6 +94,9 @@ uv run newsalpha --help
 uv run newsalpha ingest prices --since 2023-12-01          # yfinance, universe + SPY
 uv run newsalpha ingest announcements --since 2024-01-01   # EDGAR; needs SEC_USER_AGENT_* in .env
 uv run newsalpha extract --limit 20                       # LLM signals; needs OPENAI_API_KEY
+uv run newsalpha eval label --n 10                         # hand-label gold set (eval/README.md)
+uv run newsalpha eval run --model gpt-6-luna               # score a model on the gold set
+uv run newsalpha eval regress                              # CI accuracy regression gate
 ```
 
 Ingestion facts worth remembering:
@@ -102,7 +105,10 @@ Ingestion facts worth remembering:
 - Announcement text is the EX-99.1 (else first EX-99.x) exhibit, stored at `backend/data/raw/...`;
   `raw_text_uri` is relative to `DATA_DIR`. Filings without an EX-99 exhibit are skipped and counted.
 - `prices_daily` is keyed by (symbol, date); raw OHLC + `adj_close`; `adj_open = open * adj_close/close`.
-- Postgres-backed tests are marked `db` and skip when the database is unreachable.
+- Postgres-backed tests are marked `db` and skip when the database is unreachable. They run against
+  `<db>_test` (created on demand); conftest refuses any database not ending in `_test`.
+- Gold labels are keyed by (source, accession number), never DB ids. Categorical accuracy counts a
+  failed extraction as wrong. The labeller never sees model output.
 
 Frontend (run from `frontend/`):
 

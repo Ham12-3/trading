@@ -12,12 +12,13 @@ from alembic.config import Config
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
+from newsalpha.core.stats import percentile
 from newsalpha.db.models import Announcement, Company, Signal
 from newsalpha.db.session import get_engine
 from newsalpha.extraction.models_config import ExtractionSettings, ModelPrice
 from newsalpha.extraction.prompts import Prompt, load_prompt
 from newsalpha.extraction.providers import LLMResponse
-from newsalpha.extraction.runner import PromptChangedError, percentile, run_extraction
+from newsalpha.extraction.runner import PromptChangedError, run_extraction
 
 pytestmark = pytest.mark.db
 BACKEND = Path(__file__).resolve().parents[1]

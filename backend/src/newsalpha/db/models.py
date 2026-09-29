@@ -81,6 +81,20 @@ class Signal(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
+class EvalRun(Base):
+    """One scoring of (model, prompt_version) against the gold set."""
+
+    __tablename__ = "eval_runs"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    model: Mapped[str] = mapped_column(String(64), index=True)
+    prompt_version: Mapped[str] = mapped_column(String(32))
+    n_gold: Mapped[int] = mapped_column(Integer)
+    gold_sha256: Mapped[str] = mapped_column(String(64))
+    metrics: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
 class PriceDaily(Base):
     """Daily bar keyed by symbol so stocks and benchmarks (SPY) share one table."""
 

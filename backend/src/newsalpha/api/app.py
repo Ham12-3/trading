@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from newsalpha import __version__
-from newsalpha.api.routers import health
+from newsalpha.api.routers import evals, health
 from newsalpha.core.config import get_settings
 
 
@@ -22,6 +22,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app.include_router(health.router)
+    app.include_router(evals.router)
     return app
 
 
